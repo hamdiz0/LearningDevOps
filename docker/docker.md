@@ -12,7 +12,7 @@
     * isolated environments (Processes,Network,Mounts)
     * some kind of virtual machines but all chare the same os kernel 
     * you can run each service on a seperate container with its dependecys and libraries
-    * u can run oss on containers as long as they are based on the same kernel as the hosting machine (win containers cant run on a linus infrustructure)
+    * u can run oss on containers as long as they are based on the same kernel as the hosting machine (win containers cant run on a linux infrustructure)
 
 # `difference between Containers & VM` :
 
@@ -71,6 +71,10 @@
     - docker images (show current installed images)
         * all runnig instances "containers" of the image must be removed first
 
+                            [`Docker Run`]
+
+ * containers run under a docker host
+
 # `append & exec a command` :
 
     - docker run "image name(ubuntu)" "command"
@@ -79,15 +83,81 @@
         - docker exec "container name|id" "command" (append a command to a specified container)
         - docker exec -it "container name|id" bash 
 
-# `run - attach& detach` :
+# `Run-stdin` :
+
+    - docker run -i "image name" (run in interactive mode)
+        * this will make the container listen to inputs
+        * add "-t" to attach a terminal (this will print prompts) 
+
+# `Run - attach & detach` :
 
     * containers run in attached mode (wont let u interact with shell unless u force stop it Crtl+c)
     - docker run -d "image name" (run a container in detached mode or in background)
         -docker attach "container name|id" (run a container in the foreground )
 
-# `run-tags` :
+# `Run-tags` :
 
     * tags specifie the image version ,by default the tag is specified as latest
     - docker run "image name":"tag"
         - docker run redis:4.0
-         
+
+# `Run-PORT mapping|publishing` :  
+
+    * a web-app (cantainer) with an ip@ on port 5000 can be accessed via the docker host with an ip@ on port 80 (5000 <=> 80)
+    - docker run -p "doker host port":"container port" "image name"
+        - docker run -p 80:5000 hamdi/web-app
+        * now a user can access this web-app using "http://docker-host-ip@:80"
+
+# `Run-Volume mapping` :
+
+    * deleting a database container may result in the loss of all its data 
+    * volume mapping allows backing up container data under the docker host
+    - docker run -v "docker host dir":"container dir" "image name"
+        - docker run /opt/data:/var/lib/mysql mysql
+        - docker run -v /home/hamdi/jenkins:/var/jenkins_home -u root jenkins/jenkins
+
+# `inspecting containers details & logs` : 
+
+    - docker inspect "container name|id" (show container details)
+    - docker logs "container name|id" (show conatiner log)
+
+                            [`CREATING IMAGES`]
+
+# `steps of creating a docker image` :
+
+    * example of setting up a web app based on flask :
+        - OS (ubuntu)
+        - update apt repo
+        - install dependencies using apt
+        - install python dependencies
+        - copy source code to /opt dir
+        - run the web server using "flask" command
+    * a docker file is needed to complete these steps :
+    * "INSTRUCTION" => "argument"
+    * it follows a layered architecture (OS => dependencys and tools => source-code => entrypoint)
+    - Dockerfile contents :
+
+        FROM Ubuntu
+        RUN apt-get update
+        RUN apt-get install python
+        RUN pip install flask
+        RUN install flask-mysql
+        COPY . /opt/source-code (copy the app source code in the current dir)
+        ENTRYPOINT FLASK_APP=/opt/source-code/app.py flask run (this command will run if a container is created)
+
+# `create docker image `:
+
+    - docker build Dockerfile -t(tag) "account name/web-app"
+
+# `publish a docker image `:
+
+    - docker push "account name/webapp"
+
+# `chek image history` :
+
+    - docker history "image name"
+
+# `failure & cached layers` :
+
+    * docker image layers are cached (the build will continue from the last failed layer)
+    * this helpfull when changing the source-code frequintly (lower layers are cached no need to rebuilt only the above layers need to)
