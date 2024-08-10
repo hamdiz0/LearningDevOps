@@ -1,16 +1,22 @@
+                                        [`linux`]
 # `conferming sudo privelege` :
+
         sudo ls /root
 
 # `username` :
+
         whoami
 
 # `sets a password for any user` :
+
         passwd user
 
 # `navigate dirs(returns to Home)` :
+
         sudo ls /root
 
 # `history show command history` :
+
         history -c clear
         history -d delete specific line
         history -w update history file
@@ -19,6 +25,7 @@
         (history) ls -l .bash_history (history file in the sys)
 
 # `man ,help & tldr` :
+
         man manuel for commands ("q" to quit, "/" to search, "n" next occurence)
         man "section number" "command"
         man pages are summerized in mandb
@@ -30,6 +37,7 @@
         tldr simple help
 
 # `linux hierarchy` :
+
         (linux hier) bin|usr/bin => binary executables progs (sbin|usr/sbin sudo)
         (linux hier) lib|lib64 => libraries
         (linux hier) boot => contains linux kernel, grub .. (boot necessitys)
@@ -40,6 +48,7 @@
         (linux hier) usr => put ur scripts in usr/local/bin to make availble in the sys
 
 # `ls` :
+
         ls -d, ls -R (like tree)
         ls a* (any thing after a even none) 
         ls a?* (any charecter "?" after "a") 
@@ -48,48 +57,58 @@
         ls -lrt (show files in order of last modification)
 
 # `touch create` :
+
         touch file{1..100}
 
 # `cp copy` :
+
         cp /path/file /path/newfilename
 
 # `mkdir make directory` :
+
         mkdir -p /data/{sales,account}
 
 # `rm remove` :
+
         (danger) rm -rf / --no-preserve-root #remove entire sys
 
 # `ln links` :
+
         ln #hardlink
         ln -s #subolic link
 
 # `find`  :
+
         (find) -name, -user, -size (+2G,M,k), -type(d,f), -path
         find / -user "hamdi" -exec cp {} (all found files to) /path \; (closing)
         (find) command line parsing ;(separates commands), \;(end of exec)
         find /etc/ -type f | xargs grep "127.0.0.1" 2>/dev/null (find evry file that contains "127.0.0.1" inside)
-        sudo find /etc -exec grep -l hamdi {} \; (same but containing hamdi) -exec cp {} /path \; (possible to add commands)
+        find /etc -exec grep -l hamdi {} \; (same but containing hamdi) -exec cp {} /path \; (possible to add commands)
         find /etc/ -name "*.conf" -printf "%s, %p\n" | sort -rn (s:siz, p:path)
-        find path -name "file" -not -path "execludedpath" (ignore path)
+        find path -name "file" -not -path "execludedpath/*" (ignore path "*": all dirs under this path )
         find path -perm /444(u,g "or" o may have perm) ,-444(u,g "and" o must have perm) ,444 (exactly)
 
 # `which/locate` :
+
         sudo updatedb
         which "package/command" (show its location)
 
 # `tar` :
+
         sudo tar cvf name.tar /path (compress)
         sudo tar xvf name.tar /path (extract -C to change output path)
         sudo tar tvf name.tar /path (list content)
         (tar) copression meth gzip -z, bzip2 -j, xzip -J => compression
 
 # `show storage devices list` :
+
         lsblk (best) blockdevices
         mount mounts(usb)
         df -h mounts+diskspace 
         findmnt
 
 # `vim` :
+
         (vim) i or o insert mode
         (vim) Esc return to command mode :
         (vim) :wq! write ,quit and dont complain
@@ -111,19 +130,23 @@
         (vim) r replace character
 
 # `show file contents` :
+
         cat -b, -n(nuber lines not empty) tac (cat reversed)
         more/less (less > more) tail/head
 
 # `cut -d(delimeter ":,|") -f(field column number)` :
+
         cut -d : -f3 /etc/passwd | sort -n (numeric sort)
 
 # `grep keyword file: (2>/dev/null : ignore errors)` :
+
         grep -i ignore case
         grep -v all line that dont conatain the pattern
         grep -A5, B5, C5(A5+B5) : first line with occurence +/- 5 lines
         grep -R recurseve search
 
 # `regex (always betwen sq 'regex') grep` :
+
         grep '^hamdi' begenning of the line
         grep 'hamdi$' end of the line
         grep '\bhamdi\b' word ('\b....\b' 4char word)
@@ -134,30 +157,36 @@
         grep -E '(svm|vmx)' /proc/cpuinfo serach either svm or vmx (check virtualisation on cpu)
 
 # `tr translate` :
+
         tr [:lower:] [:upper:]
         tr [a-z] [A-Z]
 
 # `awk`:
+
         awk -F : '{ print $1 }' /etc/passwd (like cut -d : -f1 /etc/passwd)
         awk 'length ($0) > 40 ' /etc/passwd lines len > 40
         awk -F : '/hamdi/ {print $3}' /etc/passwd user id
 
 # `sed`:
+
         sed -n 5p /etc/passwd show 5th line
         sed -i s/anna/hamdi/g text (s:substitute anna with hamdi g:global)
         sed -i  -e '2d' text (-e: edit ,delete 2end line)
         for i in *txt ;do sed -i 's/hello/bye/g' $i ; done
 
 # `change user` :
+
         su - "user name" (switch user)
         sudo -i (opens a sudo prevelidged shell)
 
-# `sudo visudo ,config sudoers priveliges` :
+# `sudo visudo ,config sudoers priveliges` : 
+
         (visudo) user ALL=/usr/bin/passwd 
         !/usr/bin/passwd root (gives user passwd capabilities)
         (visudo) Defaults timestamp_type=global,timestamp_timeout=240 (change time needed to reenter password)
                                                                        
-# `nmap ,arp-scan & bettercap` :                                                                                                
+# `nmap ,arp-scan & bettercap`:
+
         - find devices on local net : nmap, arp-scan
                 sudo nmap (all info) 192.168.1.0/24 (-sn ip/mac/up|down)
                 sudo arp-scan --interface=wlo1  --localnet
@@ -169,12 +198,15 @@
                 (bettercap) set dns.spoof.domains facebook.com ,dns.spoof on
 
 # `linux structure` :
-         command => shell =>  glibe  => kernel
-                               /\
-                               || 
-                services => systemd (manger of evrything)
+
+        software => kernel => hardware
+        command => shell =>  glibe  => kernel                     
+                              /\
+                              ||                                         
+                services => systemd (manger of evrything)               
 
 # `redirection` :
+
         (redirection) <  input
         (redirection) >  output override
         (redirection) >> output append
@@ -182,16 +214,20 @@
         (redirection) &>/file put output+errors in
 
 # `pipe | tee` :
+
         (pipe) ps aux | tee psfile.txt | grep ssh (tee will put the output of ps in psfile.txt)
 
 # `bash` :
+
         bash creates a subshell under current shell
 
 # `env environment` :
+
         env (shows environment vars)
         /etc/environment
 
 # `variables` :
+
         (vars) system (default linux) ,environment (application use)
         (vars) varname = value (define var "only known to the current shell")
         (vars) command(echo) $varname (read var value)
@@ -199,10 +235,12 @@
         (vars) $PATH var (executable commands paths "add file.sh to one of $PATH paths to make it accessible in shell", "usr/local/bin all users can use it")
 
 # `alias/unalias` :
+
         alias name="command" (clear="cls")
         unalias name
 
 # `crtl+key` :
+
         crtl+l clear
         crtl+u clear line
         crtl+a line begenning
@@ -212,6 +250,7 @@
         crtl+z temporarily stop a job
 
 # `bash startup files` :
+
         (bash startfiles) /etc/environment
         (bash startfiles) /etc/profile.d (executed while user login "scripts will be executed when added in this dir")
         (bash startfiles) ~/.bash_profile|.bash_logout (user specific login|logout)
@@ -221,6 +260,7 @@
         (bash startfiles) find a bashrc file under /etc add a script "alias ipc='ip a'" will be saved for all users
 
 # `users/groups` :
+
         (users/groups) "/etc/passwd" | "/etc/group" are where "user" | "group" info is stored
         (users/groups) id show current user id "uid" ,current group owner "gid" and groups like sudo or wheel
         (users/groups) useradd ("-m" ensure creation of home dir, "-D" default user settings "/etc/login.defs")
@@ -231,11 +271,13 @@
         (users/groups) useradd "user" -G "group1","group2",... (creates a user and enroll him multiple groups if user exists use usermod -aG to append "not create new sec groups")
 
 # `session management` :
+
         (session) who/w current logins
         (session) loginctl (list-sessions ,show-session "id" ,show-user "user")
         (session) loginctl terminate-session "session-id"
 
 # `permissions` :
+
         (permissions)           |   file   |   dir
         (permissions) read (4)  |   read   |   list (ls)  (u need to have r per to read a file "dir r per dont intervene")
         (permissions) write(2)  |   modify |   add/delete (u need to have w per in a dir to delete a file)
@@ -248,9 +290,11 @@
         (permissions) /etc/skel/.bashrc (make default changes)
 
 # `diff` :
+
         diff file.txt file.txt (show differences </> " '>' the differnce exist on the right file ")
 
 # `partitions ,mount|ummount ,fdisk(MBR) ,gdisk(GPT) "gdisk for bigger disks"`:
+
         (partitions) create partition => create system file => mount
         (partitions) lsblk (monitor avaible disks)
         (partitions) fdisk|gdisk /dev/"disk or partition"
@@ -260,6 +304,7 @@
         (partitions per mount) /etc/fstab (add permenet mounts "mount -a chek for errors")
 
 # `networking` :
+
         (net ipv6) ::1/128 localhost ,::/ default route ,2000::/3 global unicast @s ,fd00::/8 unique local @s "private like 192.168.. "
         (net ipv6) ff00::/8 ,fe80::/64 link-local @s "automaticly assined base on the mac@"
         (net ipv6) dhcpv6 : multicast is sent to ff02::1:2 (all dhcp multicast group) port 547/udp ,dhcp sends back a packet to 546/udp
@@ -275,6 +320,7 @@
         (net) nmtui (configure networks)
 
 # `systemd` :
+
         (systemd) "default"|"custom" units "/user/lib/systemd/system"|"/etc/systemd/system"
         (systemd systemctl) systemctl -t help "avaible utilitys"
         (systemd systemctl) systemctl list-unit-files ,list-units ,[status,start|stop,enable|desable(automatic on sys boot),restart] "service"
@@ -289,17 +335,20 @@
         (systemd service wsl) service start "service" ,service status "service"
 
 # `rpm apt-cache` :
+
         rpm -qf "file" (which package a file is from)
         rpm -ql "package" queries database to list package contents
         rpm -qpc "package" list confid files in a package file "package.rpm"
         rpm -qp --scripts "package" show package scripts
 
 # `ufw firewall` :
+
         (ufw) configure firewall settings
         (ufw) ufw allow|deny proto tcp from 192.168.0.4 to any(ip@ on current host) port 22
         (ufw) ufw deny|allow proto udp from any to any port 8412:8500 (port range 8412=>8500)
 
 # `ssh` :
+
         (ssh) ssh user|ip@ , scp file user|ip@:path (copy files securly)
         (ssh) /etc/ssh/sshd_config
         (ssh) Port (define a port),PermintRootLogin (disable root login for safety),AllowUsers (define allowed users) ,PasswordAthentication
@@ -309,11 +358,13 @@
         
 
 # `managing time` :
+
         (time) touch file-$(date +%d-%B-%Y).tar (put the date in the file name)
         (time) hwclock (hardware clock) ,timedatectl
         (time) timedatectl set-ntp ,timedatectl timesync-status ,chronyc sources ,chronyc tracking
 
 # `process management` :
+
         (process) jobs (view current jobs) ,bg (run jobs in the background "same as job &") ,fg "job number" (move a job to the foreground)
         (process) top (1:show cpus ,f:edit shown info ,z:color ,w:saves config ,r:renice ,k:kill process)
         (process) ps aux (info about processes) ,ps fax (show parent-child process relation) ,ps -ef
@@ -324,6 +375,7 @@
         (process) dd if=/dev/zero of=/dev/null
 
 # `task/job scheduling` :
+
         (task/job scheduling) /etc/crontab ,crontab -e (edit cron jobs for current user)
         (task/job scheduling) Example of job definition: ("*" for evry min/h/d/m/y)
         (task/job scheduling) # .---------------- minute (0 - 59)
@@ -338,6 +390,7 @@
         (task/job scheduling) at "time" => command ,atq (show shceduled jobs) ,at rm (remove job) "at is used only in the current terminal session"
 
 # `log files` :
+
         (log files) journalctl ,journalctl -f ,/etc/systemd/journald.conf
         (log files) logger (write to the log system)
         (log files) /etc/rsyslog.conf
