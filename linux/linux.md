@@ -182,7 +182,7 @@
 # `sudo visudo ,config sudoers priveliges` : 
 
         (visudo) user ALL=/usr/bin/passwd 
-        !/usr/bin/passwd root (gives user passwd capabilities)
+        /usr/bin/passwd root (gives user passwd capabilities)
         (visudo) Defaults timestamp_type=global,timestamp_timeout=240 (change time needed to reenter password)
                                                                        
 # `nmap ,arp-scan & bettercap`:

@@ -150,7 +150,9 @@
     - docker build Dockerfile -t(tag) "account name/web-app"
 
 # `publish a docker image `:
-
+    
+    * it's necessary to login to ur account first 
+        - docker login
     - docker push "account name/webapp"
 
 # `chek image history` :
@@ -161,3 +163,10 @@
 
     * docker image layers are cached (the build will continue from the last failed layer)
     * this helpfull when changing the source-code frequintly (lower layers are cached no need to rebuilt only the above layers need to)
+
+                            [`ENVIRONMENT VARIABLES`]
+
+# `setting up environment vars` :
+
+    * env vars allow adding changes without modifying the source-code
+    
