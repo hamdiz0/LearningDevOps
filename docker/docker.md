@@ -231,7 +231,7 @@
 # `voting app` :
 
     * this helps understanding app-stack
-    |voting-app(Python)|                        |result-app(Node.js)|
+    |voting-app(Python)|                    |result-app(Node.js)|
             ||                                       /\   
             \/                                       ||
     |in-memory-db(Redis)| => |worker(.NET)| => |db(PostgreSQL)|      
@@ -244,7 +244,7 @@
         - docker run -d --name=worker worker
     * after running all of these containers ,links must be established for this to work (voting-app needs to recognize the redis db for example):
         - docker run --link "image name of the container u want to link":"container name" "image name"
-        - docker run -d --name=vote -p 5000:80 --link redis:redis voting-app
+        - docker run -d --name=vote -p 5000:80 --link redis:redis voting-app (this will create an entry in /etc/hosts of the voting's app container "ip@ redis")
         
 
 # `run the app stack (yml file)` :
