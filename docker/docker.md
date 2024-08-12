@@ -75,6 +75,10 @@
 
  * containers run under a docker host
 
+# `Run-names` :
+
+    - docker run --name="custom name" "image name" (spcifie container name)
+
 # `append & exec a command` :
 
     - docker run "image name(ubuntu)" "command"
@@ -135,15 +139,16 @@
     * a docker file is needed to complete these steps :
     * "INSTRUCTION" => "argument"
     * it follows a layered architecture (OS => dependencys and tools => source-code => entrypoint)
-    - Dockerfile contents :
+        - Dockerfile contents :
 
-        FROM Ubuntu
-        RUN apt-get update
-        RUN apt-get install python
-        RUN pip install flask
-        RUN install flask-mysql
-        COPY . /opt/source-code (copy the app source code in the current dir)
-        ENTRYPOINT FLASK_APP=/opt/source-code/app.py flask run (this command will run if a container is created)
+            FROM Ubuntu
+
+            RUN apt-get update
+            RUN apt-get install python3
+            RUN pip install python3-flask
+
+            COPY app.py /opt/source-code (copy the app source-code to /opt)
+            ENTRYPOINT python3 /opt/source-code (this command will run if a container is created)
 
 # `create docker image `:
 
@@ -169,4 +174,78 @@
 # `setting up environment vars` :
 
     * env vars allow adding changes without modifying the source-code
-    
+    * it allow modifying the container form outside(host)
+    * ur source-code have to read the env var in order to apply changes :
+        * in pyhton :
+            - import os
+            - "var"=os.eniron.get("env var name")
+        * js :
+            - const "var"=process.env."env var name"
+    - docker run -e "environment variable" "image" (this will set up an env var inside the container's OS)
+        - docker run -e BG_COLOR=blue hamdiz0/web-app
+
+# `show container's env vars` :
+    * env vars can be found under "Env" in the container config :
+        - docker inspect "container name|id"
+
+                            [`COMMANDS & ENTRYPOINTS`]     
+
+# `Commands` :
+    * it's posiible to pass in commands when running a container :
+        -docker run "image name" "command"
+            - docker ubuntu sleep 5
+    * it's possible to make these permenet inside a container by modifing the image (Dockerfile ,both forms are valid) :
+        - CMD sleep 5 
+        - CMD ["command","parameter"] (json format)
+
+# `Entrypoints` :
+
+    * it will run a command when a container is created :
+        - ENTRYPOINT ["command with out parameters"] (json format)
+        - docker run "image name" "parameter"
+            -docker run lazy-ubuntu 60
+ 
+# `missing operand` :
+
+    * this issue will happen when u don't specifie the parameter :
+        - docker run lazy-ubuntu "missing parameter"
+    * to fix this ,a combination of Entrypoints & Commands is needed (NOITCE:they must be specified in a json format ["cmd|param"]) :
+        - ENTRYPOINT ["sleep"]
+        - CMD ["60"]
+
+# `overriding Entrypoints` :
+
+    * it's possibel to override during container runtime :
+        - docker run --etrypoint "command" "image name" "parameter"
+            - docker run --entrypoint sleep2.0 lazy-ubuntu 60
+
+                            [`DOCKER COMPOSE`] 
+
+* Docker Compose is usefull for setting up porjects with multiple services (containers)
+
+# `setting up docker compose` :
+
+    * create a docker-compose.yml to manage multiple services and specific options needed in one file wish is easier to implement ,run and maintain
+    * this is only possible on a single docker host
+
+# `voting app` :
+
+    * this helps understanding app-stack
+    |voting-app(Python)|                        |result-app(Node.js)|
+            ||                                       /\   
+            \/                                       ||
+    |in-memory-db(Redis)| => |worker(.NET)| => |db(PostgreSQL)|      
+
+    * creating this app using doker run (naming containers is important):
+        - docker run -d --name=redis redis
+        - docker run -d --name=db db
+        - docker run -d --name=vote -p 5000:80 voting-app
+        - docker run -d --name=result -p 5001:80 result-app
+        - docker run -d --name=worker worker
+    * after running all of these containers ,links must be established for this to work (voting-app needs to recognize the redis db for example):
+        - docker run --link "image name of the container u want to link":"container name" "image name"
+        - docker run -d --name=vote -p 5000:80 --link redis:redis voting-app
+        
+
+# `run the app stack (yml file)` :
+    - docker-compose up (bring the entire application stack)
