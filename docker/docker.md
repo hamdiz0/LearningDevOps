@@ -1,5 +1,6 @@
-                            [`DOCKER`]
-# `why Docker is needed` :
+# [`DOCKER`]
+                            
+## `why Docker is needed` :
 
     * compatibility/dependency (all different services must be compatible "versions" on the same infrastructure "os")
     * some services may require different versions and libraries of the same dependency
@@ -7,7 +8,7 @@
     * different Dev/Test/Prod environments (new develpers have to set up thier working environment form scratch wich is tedious)
     * the main purpose of Docker is to package ,contanerize applications ,ship them and run them anywhere   
 
-# `containers` :
+## `containers` :
 
     * isolated environments (Processes,Network,Mounts)
     * some kind of virtual machines but all chare the same os kernel 
@@ -24,13 +25,12 @@
     * once the container completes its task or the process inside of it ,it exits 
  
 # `Docker images` :
-
     * a Docker image is a Package ,Template or Plan (service ,application)
     * containers are running instances of images wich have their own environments
     * create personal images and push it to "Docker Hub" repo
     * Docker images are found in Docker Hub "hub.docker.com"
-    
-                            [`SETTING UP DOCKER`]
+
+# [`SETTING UP DOCKER`]
 
 * "docs.docker.com" => get Docker => select OS => follow the listed steps
 
@@ -40,9 +40,7 @@
         - curl -fsSL https://get.docker.com -o get-docker.sh
         - sudo sh get-docker.sh --dry-run (show the script steps)
         - sudo sh get-docker.sh (run the script)
-
-# `Windows` :
-    -
+        
                             [`COMMANDS`]
 
 * higher priveliges are requierd to run docker commands
