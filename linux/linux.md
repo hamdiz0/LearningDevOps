@@ -1,4 +1,4 @@
-                                        [`linux`]
+#                                        [`linux`]
 # `conferming sudo privelege` :
 
         sudo ls /root
