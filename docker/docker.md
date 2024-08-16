@@ -189,7 +189,8 @@
 #                            [`COMMANDS & ENTRYPOINTS`]     
 
 ## `Commands` :
-    * it's posiible to pass in commands when running a container :
+
+    * it's possible to pass in commands when running a container :
         -docker run <image name> <command>
             - docker ubuntu sleep 5
     * it's possible to make these permenet inside a container by modifing the image (Dockerfile ,both forms are valid) :
@@ -200,6 +201,7 @@
 
     * it will run a command when a container is created :
         - ENTRYPOINT ["command with out parameters"] (json format)
+        - ENTRYPOINT ["sleep"]
         - docker run <image name> <parameter>
             -docker run lazy-ubuntu 60
  
@@ -213,7 +215,7 @@
 
 ## `overriding Entrypoints` :
 
-    * it's possibel to override during container runtime :
+    * it's possible to override entrypoints during container runtime :
         - docker run --etrypoint <command> <image name> <parameter>
             - docker run --entrypoint sleep2.0 lazy-ubuntu 60
 
@@ -221,6 +223,11 @@
 
 * Docker Compose is usefull for setting up porjects with multiple services (containers)
 
+## `installing docker compose` :
+
+    * "https://docs.docker.com" => Docker Compose => install => follow the listed steps
+    - curl -SL https://github.com/docker/compose/releases/download/v2.29.1/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
+    
 ## `setting up docker compose` :
 
     * create a docker-compose.yml to manage multiple services and specific options needed in one file wish is easier to implement ,run and maintain
@@ -322,4 +329,69 @@
                 - back-end:
                 - front-end: 
 
+## `docker compose enivironmet` :
+
+    * u can set a value to an env var inside a container 
+    - docker-compose file :
+        db:
+            image:postgres
+            environment:
+                POSTGRES_USER: postgres
+                POSTGRES_PASSWORD: postgres
+
+## `docker compose entrypoint & command` :
+
+    * u can set up an entrypoint or a command for a container in a docker compose file:
+    - docker-compose file :
+        lazy-ubuntu:
+            image: lazy-ubuntu
+            command:"World"  
+            entrypoint:["echo","Hello"] (entrypoint: ["sh", "-c", "grep root /etc/passwd"])
+        * prints out "Hello World"
+        
+
 #                            [`DOCKER REGISTRY`]
+
+## `private regitry` :
+
+    * cloud providers like azure & aws provide a private registry by default when creating an account
+    * loging in to a private registry :
+        - docker login <private-registry.io>
+
+## `deploy a private regitry` :
+    
+    * create a custom registry :
+        - docker run -d -p 5000:5000 --name <name> <registry name>
+    * pushing an image to the registry :
+        - docker image tag <image> <localhost|ip@>:<5000>/<image>
+        - docker push <localhost|ip@>:<5000>/<image>
+    * pulling an image from a custom registry :
+        - docker pull <localhost|ip@>:<5000>/<image>
+
+#                            [`DOCKER ENGINE`]
+
+## `docker engine` :
+
+    * its basicly a host with docker installed on it
+    * Docker Deamon : background process that manages docker object (imges,containersnnetworks,...)
+    * REST API : programs can use to talk to the daemon and provide instructions (u can create youre own tools with this api)
+    * Docker CLI : command line interface (it uses the Rest API to communicate with the Docker Daemon) 
+    * Docker CLI dosen't have to be on the same host (remote docker engine)
+        - docker -H=<remote-docker-engine>:<port> run <image name>
+
+                        /----------------\
+                       /  - Docker CLI    \
+    - docker engine =>|   - REST API       | 
+                       \  - Docker Deamon /    
+                        \----------------/
+
+## `containerazation` :
+
+    * namespace (process id ,network ,mount ...) provide isolation between containers
+    * namespace-pid : containers share same resources as the host but the same processes have different ids in the container (a subsystem wich thinks that is has its own processes) and in the host 
+        * basicly namespace-pid will providee multiple ids for the same process for the host and the container
+    * cgroups (control groups): control the amount of resources allocated for each container
+        - docker run --cpus=<value> <image name>
+            - docker run --cpus=.5 ubuntu (this will ensure that the container won't take up more than 50% of the host cpu resources)
+        - docker run --memory=<value&unit> <image name>
+            - docker run --memory=100m ubuntu (m:megabytes)    
