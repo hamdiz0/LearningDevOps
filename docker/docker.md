@@ -138,6 +138,10 @@
         - docker run /opt/data:/var/lib/mysql mysql
         - docker run -v /home/hamdi/jenkins:/var/jenkins_home -u root jenkins/jenkins
 
+## `attach a container to a network` :
+
+    - docker run --network <network name|@> <image name|id>
+
 ## `inspecting containers details & logs` : 
 
     - docker inspect <container name|id> (show container details)
@@ -488,3 +492,65 @@
 
 #                            [`DOCKER ORCHESTRATION`]
 
+## `docker orchestration` :
+
+    * one instance of a service may not be sufficient as it can't handle multiple users so multiple instances are needed (docker rum multiple times) 
+    * these instances must be maintained as they can fail
+    * the host also must be maintained as it can crash
+    * you can build scripts that manages these essus ,maintain all instances of the services and the host
+    * container orchestration is basicly a bunsh of tools and scripts that helps you maintain containers in a production environment
+    * a platform of multiple hosts that run a large number of containers :
+        - docker service create --replicas=100 nodejs (a docker swarm command)
+    * some orchestration solution can scale up or down the number of instances based on the number of users ,some will add additional hosts 
+    * orchestration solutions may also provide support for advanced networking betwween containers across hosts ,load balancing user requests ,storage sharing ,vonfiguration and security
+    * orchestration tools :
+        - Docker Swarn
+        - Kubernetes
+        - Mesos
+
+## `docker swarm` :
+
+    * combine multiple docker machines in a single cluster (nodes + manager) ,it will take care of distrebuting your application instances into seperate hosts for high availability and for load balancing acroos different hardware
+    * one host must be designted as the manager and the others will be workers
+        - docker swarm init (on the swarm manager)
+        - docker swarm join --token <token> (on the workers)
+        - docker service create --replicas=<number> <image name|id> (create multiple instances across multiple nodes "workers" ,this type of commands must run on the manager host)
+        - docker create service --network <network name|@> <image name|id> 
+       
+## `kubernetes` :
+
+    * same as swarm like manager host(master) and the nodes ,but it have more features and its the most used
+    * run multiple instances :
+        - kuberctl run --replicas=<number> <image name|id> 
+    * scale up|down :
+        - kuberctl scale --replicas=<number> <image name|id> 
+    * it can be configured with autoscaling capabilities (POD Autoscalers ,Cluster Autoscalers) based on user load
+    * upgrade all instances in a rolling upgrade method (one at a time) :
+        - kuberctl rolling-update <image name|id>
+    * roll back capabilities in case of failiure :
+        - kuberctl rolling-update <image name|id> --rollback
+    * allows testing new features of an application by upgrading a certain percantage of instances
+    * support for many network and storge vendors
+
+### `kubernetes components` :
+
+    * API server : CLI ,users ,manegment devices (front-end of kubernetes) talk to the API to interact with the kubernetes cluster
+    * etcd : key value store (logs and data about the clusters)
+    * schedular : distributing work or containers across multiple nodes
+    * controllers : the brain behind orchestration
+    that maintaines clusters 
+    * container runtime : software used to run containers like docker
+    * kubelet : an agent responsible for making sure that the containers are running on the nodes as expected 
+
+### `kubectl` :
+
+    * kubectl is a control tool ,it's the kubernetes CLI wich is used to deploy and manage applications on a kubernetes cluster 
+    * deploy an application on the cluster :
+        - kubectl run <cluster>
+    * show cluster info :
+        - kubectl cluster-info
+    * list all nodes :
+        - kubectl get nodes
+    * run mutiple instances of an application on multiple nodes :
+        - kubectl run <name> --image=<image name|id> --replicas:<number>
+    
