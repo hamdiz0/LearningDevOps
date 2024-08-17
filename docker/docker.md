@@ -40,7 +40,27 @@
         - curl -fsSL https://get.docker.com -o get-docker.sh
         - sudo sh get-docker.sh --dry-run (show the script steps)
         - sudo sh get-docker.sh (run the script)
-        
+
+## `windows` :
+
+### `docker tool box` :
+
+    * a pack of software that will set up a docker VM on youre win machine
+    * this will only run linux containers 
+
+### `docker desktop for windows` :
+    
+    * same virtualization but with micorsoft's Hyper-V technologie
+    * this will run linux containers by default but it's also capable of running windows coantainers (with some config)
+
+### `container types (2 types)` :
+
+    * window server container (kernel is shared with containers like linux)
+    * Hyper-V isolation (avry containers runs on its own highly optimised VM with seperate kernels)
+    * base images :
+        - Windows Server Core
+        - Nano Server
+
 #                            [`COMMANDS`]
 
 * higher priveliges are requierd to run docker commands
@@ -51,7 +71,7 @@
 
 ## `create ,stop or remove a container` :
 
-    - docker run <image name> (run an instance "container" of an image "if the image dosen't exist localy it will be pulled from Docker Hub")
+    - docker run <image name|id> (run an instance "container" of an image "if the image dosen't exist localy it will be pulled from Docker Hub")
     - docker stop <container name|id>
     - docker rm <container name|id> (delete stoped or a running container)
         - docker rm <id1> <id3> <name4> (specifie multiple containers)
@@ -64,8 +84,8 @@
 
 ## `pull or remove an image` :
 
-    - docker pull <image name> from Docker Hub"
-    - docker rmi <image name> 
+    - docker pull <image name|id> from Docker Hub"
+    - docker rmi <image name|id> 
     - docker images (show current installed images)
         * all runnig instances "containers" of the image must be removed first
 
@@ -75,11 +95,11 @@
 
 ## `Run-names` :
 
-    - docker run --name=<custom name> <image name> (spcifie container name)
+    - docker run --name=<custom name> <image name|id> (spcifie container name)
 
 ## `append & exec a command` :
 
-    - docker run <image name>(ubuntu) <command>
+    - docker run <image name|id>(ubuntu) <command>
         - docker run -it centos bash (create and enter a centos bash)
     - docker run ubuntu sleep 100 seconds (u can run other commands in this 100s periode)
         - docker exec <container name|id> <command> (append a command to a specified container)
@@ -87,26 +107,26 @@
 
 ## `Run-stdin` :
 
-    - docker run -i <image name> (run in interactive mode)
+    - docker run -i <image name|id> (run in interactive mode)
         * this will make the container listen to inputs
         * add "-t" to attach a terminal (this will print prompts) 
 
 ## `Run - attach & detach` :
 
     * containers run in attached mode (wont let u interact with shell unless u force stop it Crtl+c)
-    - docker run -d <image name> (run a container in detached mode or in background)
+    - docker run -d <image name|id> (run a container in detached mode or in background)
         -docker attach <container name|id> (run a container in the foreground )
 
 ## `Run-tags` :
 
     * tags specifie the image version ,by default the tag is specified as latest
-    - docker run <image name>:<tag>
+    - docker run <image name|id>:<tag>
         - docker run redis:4.0
 
 ## `Run-PORT mapping|publishing` :  
 
     * a web-app (cantainer) with an ip@ on port 5000 can be accessed via the docker host with an ip@ on port 80 (5000 <=> 80)
-    - docker run -p <doker host port>:<container port> <image name> 
+    - docker run -p <doker host port>:<container port> <image name|id> 
         - docker run -p 80:5000 hamdi/web-app
         * now a user can access this web-app using "http://docker-host-ip@:80"
 
@@ -114,7 +134,7 @@
 
     * deleting a database container may result in the loss of all its data 
     * volume mapping allows backing up container data under the docker host
-    - docker run -v <docker host dir>:<container dir> <image name> 
+    - docker run -v <docker host dir>:<container dir> <image name|id> 
         - docker run /opt/data:/var/lib/mysql mysql
         - docker run -v /home/hamdi/jenkins:/var/jenkins_home -u root jenkins/jenkins
 
@@ -160,7 +180,7 @@
 
 ## `chek image history` :
 
-    - docker history <image name> 
+    - docker history <image name|id> 
 
 ## `failure & cached layers` :
 
@@ -179,7 +199,7 @@
             - "var"=os.eniron.get("env var name")
         * js :
             - const "var"=process.env."env var name"
-    - docker run -e <environment variable> <image name> (this will set up an env var inside the container's OS)
+    - docker run -e <environment variable> <image name|id> (this will set up an env var inside the container's OS)
         - docker run -e BG_COLOR=blue hamdiz0/web-app
 
 ## `show container's env vars` :
@@ -191,7 +211,7 @@
 ## `Commands` :
 
     * it's possible to pass in commands when running a container :
-        -docker run <image name> <command>
+        -docker run <image name|id> <command>
             - docker ubuntu sleep 5
     * it's possible to make these permenet inside a container by modifing the image (Dockerfile ,both forms are valid) :
         - CMD sleep 5 
@@ -202,7 +222,7 @@
     * it will run a command when a container is created :
         - ENTRYPOINT ["command with out parameters"] (json format)
         - ENTRYPOINT ["sleep"]
-        - docker run <image name> <parameter>
+        - docker run <image name|id> <parameter>
             -docker run lazy-ubuntu 60
  
 ## `missing operand` :
@@ -216,7 +236,7 @@
 ## `overriding Entrypoints` :
 
     * it's possible to override entrypoints during container runtime :
-        - docker run --etrypoint <command> <image name> <parameter>
+        - docker run --etrypoint <command> <image name|id> <parameter>
             - docker run --entrypoint sleep2.0 lazy-ubuntu 60
 
 #                            [`DOCKER COMPOSE`] 
@@ -248,7 +268,7 @@
         - docker run -d --name=result -p 5001:80 result-app
         - docker run -d --name=worker worker
     * after running all of these containers ,links must be established for this to work (voting-app needs to recognize the redis db for example):
-        - docker run --link <image name of the container u want to link>:<container name> <image name> 
+        - docker run --link <image name|id of the container u want to link>:<container name> <image name|id> 
             - docker run -d --name=vote -p 5000:80 --link redis:redis voting-app (this will create an entry in /etc/hosts of the voting's app container "ip@ redis")
             - docker run -d --name=result -p 5001:80 --link db:db result-app
             - docker run -d --name=worker --link redis:redis --link db:db worker
@@ -368,7 +388,7 @@
     * pulling an image from a custom registry :
         - docker pull <localhost|ip@>:<5000>/<image>
 
-#                            [`DOCKER ENGINE`]
+#                            [`DOCKER ENGINE ,STORAGE & NETWORK`]
 
 ## `docker engine` :
 
@@ -377,7 +397,7 @@
     * REST API : programs can use to talk to the daemon and provide instructions (u can create youre own tools with this api)
     * Docker CLI : command line interface (it uses the Rest API to communicate with the Docker Daemon) 
     * Docker CLI dosen't have to be on the same host (remote docker engine)
-        - docker -H=<remote-docker-engine>:<port> run <image name>
+        - docker -H=<remote-docker-engine>:<port> run <image name|id>
 
                         /----------------\
                        /  - Docker CLI    \
@@ -385,13 +405,86 @@
                        \  - Docker Deamon /    
                         \----------------/
 
-## `containerazation` :
+### `containerazation` :
 
     * namespace (process id ,network ,mount ...) provide isolation between containers
     * namespace-pid : containers share same resources as the host but the same processes have different ids in the container (a subsystem wich thinks that is has its own processes) and in the host 
         * basicly namespace-pid will providee multiple ids for the same process for the host and the container
     * cgroups (control groups): control the amount of resources allocated for each container
-        - docker run --cpus=<value> <image name>
+        - docker run --cpus=<value> <image name|id>
             - docker run --cpus=.5 ubuntu (this will ensure that the container won't take up more than 50% of the host cpu resources)
-        - docker run --memory=<value&unit> <image name>
-            - docker run --memory=100m ubuntu (m:megabytes)    
+        - docker run --memory=<value&unit> <image name|id>
+            - docker run --memory=100m ubuntu (m:megabytes) 
+
+### `list container's processes` :
+
+    - docker exec <container name|id> ps -eaf
+    * u can find the same process in the host but with a different pid :
+        - ps -eaf | grep <process name>
+
+## `docker storage` :
+
+    * when u install docker on a system ,it creates this folder structure "/var/lib/docker" wich contains multiple dirs used for storage (containers ,image ,volumes)
+    * docker saves cache (layered structue) wich saves time and space updating and creating similar layered structure images
+    * when an image is built its layers are read only (the only way to modify them is by rebuilding the image) ,when running a built image a new layer is created wich is the container layer ,when the container stops all related files and cjanges of that layer are stoped also
+
+### `volumes` :
+
+    * copy-on-write u can modify files and update image source-code as a copy in the container layer
+    * when the container stops all of its layer changes are gone ,that where volumes are needed to add persistant storage for the container
+    - docker volume create <volume name>
+        * creates a dir named <colume name> under "/var/lib/docker/volumes"
+    - docker run -v <volume name>:<path> <image name|id>
+        * this will mount the volume inside a specified path in the container
+    - docker run \
+      --mount type=<type(bind)>,source=<from source>,target=<to target> <image name|id>
+    * docker usues different types of storage drivers based on the hosting os (AUFS ,ZFS ,Overlay ,Device Mapper,...)
+    * https://docs.docker.com/engine/storage/drivers/select-storage-driver/
+
+### `show docker's information` :
+
+    - docker info 
+
+### `show the creation steps of an image` :
+
+    - docker history <image name|id|id>
+
+### `docker system` :
+
+    * show used space :
+        - docker system df (-v show all images)
+    * delete unused files :
+        - docker system prune
+    * Get real time events from the server :
+        - docker system events
+
+## `docker network` :
+
+    * when docker is installed three networks are automaticly made (Bridge,None & Host)
+    * Bridge : is a default network a container gets attached to (private internal network "172.17.0.0")
+    * None ,Host : sepecify network manually
+        - docker run <image name|id> --network=none|host
+    * when specifying the network as host there will be no need to add port mapping to access internal web services inside the container as it directly posts on the host ,but multiple containers won't share the same port unlike the Bridge network
+    * None nerwork basicly isolates the container from any type of network
+
+### `custom networks` :
+
+    * these networks are user defined ,u can create ur own networks other than the "172.17.0.0" :
+        - docker network \
+            --driver <network-type(bridge)>
+            --subnet <network-@ "182.18.0.0/16">
+            <network name>
+
+### `inspect networks` :
+
+    * show all networks :
+        - docker network ls
+    * inspect a network : 
+        - docker inspect <container name|id> (network config is under "Networks")
+    
+### `embedded dns` :
+
+    * a built in dns server "172.0.0.11" that helps containers recognize each other in a network
+
+#                            [`DOCKER ORCHESTRATION`]
+
