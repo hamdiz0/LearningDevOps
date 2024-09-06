@@ -40,7 +40,7 @@
     - manual checks : are the system stability and security affected by the new changes 
     - manual deployment
     - manual configuration
-# `solution : DevOps` :
+# `solution DevOps` :
 ## `defenition` :
     - devops is the intersection of DEV and OPS
     - a common language to ensure the communication between devs and ops team
@@ -52,7 +52,7 @@
     - devops tools : set of technologies used to implement devops
     - a devops engineer is responsible for creating a streamlined fully automated release process
     - basic knowledge of the development and operation and additional devops specific skills
-## ``famous devops tools` :
+## `famous devops tools` :
     - source code manegment : git
     - package management : docker
     - infratructure as code : terraform ,ansible
