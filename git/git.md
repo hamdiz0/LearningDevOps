@@ -1,4 +1,6 @@
-                                        [`USING GIT ON A LOCAL MACHINE`]
+#                                        [`USING GIT ON A LOCAL MACHINE`]
+
+## `show version` :
 
 # `show version` :
 
@@ -81,7 +83,9 @@
 
         - git commit --amend -m "message" (change last commit message)
 
-                                        [`USING GIT REMOTLY`]
+#                                        [`USING GIT REMOTLY`]
+
+## `local/remote communication` :
 
 # `local/remote communication` :
 
@@ -128,16 +132,18 @@
         - printf "host=github.com\nprotocol=https\n" | git credential fill (chow pat conf)
         - printf "host=github.com\nprotocol=https\n" | git credential reject (remove pat conf)
 
-                                        [`BRANCHES`]
+##                                       [`BRANCHES`]
 
-#it's better to work in feature branches than merge changes into the main branchs
+* it's better to work in feature branches than merge changes into the main branchs
+
+## `create and switch between branches` :
 
 # `create and switch between branches` :
 
 	* it's better to pull from main (remote) before creating a branch
         - git branch "branch" (create a new branch)
         - git branch -a (list all branchs)
-        - git branch -d "branch" (delete a branch "-D :force delete")
+        - git branch -d "branch" (delete a branch "-D force delete")
         - git switch "branch" (switch to a branch) ,git ckeckout "branch name"
         - git switch -c "branch" (create and switch to a branch) ,git ckeckout -b "branch name"
         * moving between branches requiers commiting or stashing changes (more than one commit)
@@ -185,7 +191,9 @@
 
         - git reset --hard "hash"|"branch(origin/main)" (move HEAD pointer to a specific commit)
 
-                                        [`GIT WORKFLOWS WORKING WITH COLLABORATORS`]
+#                                        [`GIT WORKFLOWS WORKING WITH COLLABORATORS`]
+
+## `adding collaborators ` :
 
 # `adding collaborators ` :
 

@@ -1,4 +1,5 @@
-                                        [`linux`]
+#                                        [`linux`]
+
 # `conferming sudo privelege` :
 
         sudo ls /root
@@ -77,7 +78,13 @@
         ln #hardlink
         ln -s #subolic link
 
-# `find`  :
+# `show file size` :
+
+        du -sh file|dir
+        du -sh . (show current folder size)
+        du -sh * (show each file size in the current folder)
+
+# `find` :
 
         (find) -name, -user, -size (+2G,M,k), -type(d,f), -path
         find / -user "hamdi" -exec cp {} (all found files to) /path \; (closing)
