@@ -7,7 +7,7 @@
     - test new features and old functionality
     - manual and automated testing
     - done by testers
-## `operations` :
+## `operations (software release)` :
     - build application
     - deploy on servers
     - upgrade existing software
@@ -30,9 +30,11 @@
         - monitoring tools
 ## `this seperation between the development and operation team causes multiple issues` :
     - "well it works on my machine !!!"
-    - this will slow down the release process
+    - different responsibilities , different technical knowledge and different tools  
+    - this will slow down the release process (weeks to months)
 ### `misscommunication and lack of collaboration ` :
     - deployment requires configuration and environment needs to be prepared
+    - dev team give instructions to the ops team ,these instructions may not be clear enough or some parts are missing
 ### `conflict of intrest` :
     - DEV focus on realising new features
     - OPS focus on maintaining stability 
@@ -60,6 +62,27 @@
     - container orchestration : kubernetes
     - cloud : aws ,azure ,google cloud
     - monitoring : prometheus
+# `waterfall vs agile methedologie` :
+## `waterfall` :
+    - requirements : planning
+    - development : code complete app
+    - testing : testing the hole app
+    - operations : huge preparation
+    => this an ineffective process :
+        - over time new requirements may arise
+        - miscommunication and places of faliure
+        - lack of fast feedback
+## `agile` :
+    - agile is the heart of CI/CD process
+    - devops implements some best practices of the agile method
+    - backlog => analyse => define => design => test => deploy
+    => this method is effective and its increasingly growing :
+        - speed of development , testing and deployment cycles
+        - each feature gets tested , deployed and gets immediate feedback
+        - fast development and deployment process
+        - scrum and kanban (examples of specific implementations)
+    
+
 # `at the core of devops` :
     - CI/CD pipline for an automated release process
     - commit code => test => build => push => deploy
