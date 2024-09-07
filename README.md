@@ -1,5 +1,5 @@
 # `DevOps` :
-    - there are different it roles in software development & delevery process
+    - there are different roles in software development & delevery process
 ## `software development` :
     - software programmed by devs using different programming languages
     - add new features and bug fixes
