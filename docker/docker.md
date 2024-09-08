@@ -137,6 +137,7 @@
     - docker run -v <docker host dir>:<container dir> <image name|id> 
         - docker run /opt/data:/var/lib/mysql mysql
         - docker run -v /home/hamdi/jenkins:/var/jenkins_home -u root jenkins/jenkins
+        - docker volume inspect <volume name>
 
 ## `attach a container to a network` :
 
