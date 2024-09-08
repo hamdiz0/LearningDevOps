@@ -1,7 +1,7 @@
 # `jenkins` :
 
     * jenkins is a popular tool used for build automation and continious integration
-![jen1](learning/jenkins/jen1.PNG)
+<img src="learning/jenkins/jen1.png">
 # `setting up jenkins` :
 
     * it's better to set up jenkins as a docker container in a server :
