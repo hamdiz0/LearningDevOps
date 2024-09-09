@@ -87,9 +87,9 @@
 # `setting up a job` :
 
     * choose job type
-    * job => configure => build environment => build steps : you can execute shell commands as long as these tools are installed using shell in the container (commands of tools installed from the ui won't work)
+    * job => configure => build environment => build steps => command: you can execute shell commands as long as these tools are installed using shell in the container (commands of tools installed from the ui won't work)
     * there is an option that allows executing commands from tools and plugins
-    "add build step" => choose plugin 
+    "add build step" => choose plugin and wirite a related command
     * installing directly on the server (container) is more flexible unlike plugins that provides limited input fields
     * you can build the job by selecting "build now"
     * see build status in the "status" tab
@@ -98,5 +98,32 @@
 # `git configuration` :
 
     * job => configure => source code manegement : you can select the "git" option to sync a project repo
+    * credentials must be added in order to acces the git repo : select "add" under credentials and add user name and password of the git repo*
+    * it's also possible to select a specific branch if a repo containes  multiple
 
+<img src="img/jen3.PNG" width="100%">
     
+    * jenkins checks out the source code locally in order to be able to run commands against the git repo like tests
+    * build option will build the application locally
+    * jenkins config files can be found under "/var/jenkins_home/" (jenkins container shell)
+    * you can find all created jobs with their information (log files ,builds) under the "jobs" dir 
+    * the "git checkout" is under "/var/jenkins_home/workspace/<job name>" (you will find the actual repo source code)
+
+# `scripts` :
+
+    * jenkins can run sript files located in a synced git repo 
+    * job => configure => build environment => build steps => command :
+        - chmod +x <script> (needed execute permissions)
+        - ./<script>
+
+# `run tests and build a java app` :
+
+    * example of retriving a java-maven app from a git repo ,run test and build a jar file   
+
+<img src="img/jen4.PNG" width="100%">
+
+    * sync repo with credentials "https://gitlab.com/hamdiz0/java-maven-app.git" (branch:jenkins jobs)
+    * job => configure => build environment => build steps => add build step : choose maven : 
+        - goals : test (test app)
+        - goals (add a second step) : package (package to jar file)
+
