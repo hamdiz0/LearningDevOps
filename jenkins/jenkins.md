@@ -1,6 +1,29 @@
 # `jenkins` :
 
     * jenkins is a popular tool used for build automation and continious integration
+## `use of jenkins` :
+
+    * jenkins is prefarable to be installed on a server
+    * it require's needed tools to get the task done (docker ,npm ,...)
+    * tasks must be configured (run tests ,build app)
+    * configuration of the automatic trigger of the workflow
+    - run tests
+    - build ,publish and deploy artifacts
+    - send notifications and more
+
+## `roles in jenkins` :
+
+### `jenkins administrator (operation or devops teams)` :
+
+    - manges jenkins
+    - sets up jenkins cluster
+    - install plugins 
+    - backup jenkins
+
+### `jenkins user (devloper or devops teams)` :
+
+    - create actual jobs to run workflows
+
 <img src="img/jen1.PNG" width="100%">
 
 # `build automation` :
