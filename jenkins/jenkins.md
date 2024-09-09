@@ -1,6 +1,9 @@
 # `jenkins` :
 
     * jenkins is a popular tool used for build automation and continious integration
+
+<img src="img/jen1.PNG" width="100%">
+
 ## `use of jenkins` :
 
     * jenkins is prefarable to be installed on a server
@@ -23,8 +26,6 @@
 ### `jenkins user (devloper or devops teams)` :
 
     - create actual jobs to run workflows
-
-<img src="img/jen1.PNG" width="100%">
 
 # `build automation` :
 
