@@ -25,8 +25,6 @@
 
     - create actual jobs to run workflows (automate apps workflow)
 
-<img src="img/jen1.PNG" width="100%">
-
 # `build automation` :
 
     * is the process of automating :
