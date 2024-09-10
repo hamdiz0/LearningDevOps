@@ -126,4 +126,17 @@
     * job => configure => build environment => build steps => add build step : choose maven : 
         - goals : test (test app)
         - goals (add a second step) : package (package to jar file)
+    * jenkins will checkout the git repo first ,run tests than package the app into a jar file (dependencies will be installed in the process)
+    * a "target" folder is created containing the jar file
 
+# `doker in jenkins` :
+
+    * adding docker by attaching a volume to jenkins from the host 
+    * this achievd by mounting the docker runtime dir "/var/run/docker.sock" of the host to the jenkins container as a volume (previous container must be killed to add volumes) :
+        - docker run -v /home/hamdi/jenkins:/var/jenkins_home \
+        > -v /var/run/docker.sock:/var/run/docker.sock \
+        > -p 8080:8080 -p 50000:50000 \
+        > -u root jenkins/jenkins
+    * additional steps are needed : 
+        - curl https://get.docker.com/ > dockerinstall && chmod 777 dockerinstall && ./dockerinstall
+        - chmod 666 /var/run/docker.sock
