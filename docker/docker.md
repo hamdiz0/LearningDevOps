@@ -175,7 +175,7 @@
 
 ## `create docker image `:
 
-    - docker build Dockerfile -t(tag) <account name/web-app>
+    - docker build <path containing the Dockerfile> -t(tag) <account name/web-app>
 
 ## `publish a docker image `:
     

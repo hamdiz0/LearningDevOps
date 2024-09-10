@@ -131,12 +131,26 @@
 
 # `doker in jenkins` :
 
+## `setting up docker in jenkins` :
+
     * adding docker by attaching a volume to jenkins from the host 
     * this achievd by mounting the docker runtime dir "/var/run/docker.sock" of the host to the jenkins container as a volume (previous container must be killed to add volumes) :
         - docker run -v /home/hamdi/jenkins:/var/jenkins_home \
         > -v /var/run/docker.sock:/var/run/docker.sock \
         > -p 8080:8080 -p 50000:50000 \
         > -u root jenkins/jenkins
-    * additional steps are needed : 
+    * additional steps are needed (commands inside the jenkins container) : 
         - curl https://get.docker.com/ > dockerinstall && chmod 777 dockerinstall && ./dockerinstall
         - chmod 666 /var/run/docker.sock
+
+## `build & push docker images` :
+
+    * build an docker image of the "java-maven-app" :
+        - docker build . -t hamdiz0/java-maven-app 
+    * to push a docker image to a docker repo credentials must be added 
+        * manage => credentials => store/system (of the related git repo credentials) => global credentials(unrestricted) => add credential
+    * a plugin is needed to provide the user name and password of docker 
+        * build environment => use secret text(s) or file(s) => username and password (seperated) => set user name (USER) and password (PASSWORD) variables
+        - docker login -u $USER -p $PASSWORD
+        - docker push hamdiz0/java-maven-app
+    
