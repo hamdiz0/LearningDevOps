@@ -152,5 +152,6 @@
     * a plugin is needed to provide the user name and password of docker 
         * build environment => use secret text(s) or file(s) => username and password (seperated) => set user name (USER) and password (PASSWORD) variables
         - docker login -u $USER -p $PASSWORD
+            - echo $PASSWORD | docker login -u USER --password-stdin (best practice)
         - docker push hamdiz0/java-maven-app
     

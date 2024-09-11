@@ -326,6 +326,11 @@
         (net) dig "dns name(google.com)" (reveals its ip@)
         (net) nmtui (configure networks)
 
+# `netstat` :
+
+        (netstat) apt install net-tools
+        (netstat) netstat -lntp (displays detailed information about listening network services)
+        
 # `systemd` :
 
         (systemd) "default"|"custom" units "/user/lib/systemd/system"|"/etc/systemd/system"
