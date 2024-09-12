@@ -41,7 +41,7 @@
 		- tar -zxvf <tar file>
 	* it's better to set a nexus user that manages the nexus data :
 		- useradd nexus 
-	* change the "nexus-version" and "sonatype-work" folders ownership with thier contant :
+	* change the "nexus-version" and "sonatype-work" folders ownership with thier content :
 		- chown -R (recursive) nexus:nexus nexus-version
 		- chown -R nexus:nexus sonatype-work
 	* java must be installed on the machine :
