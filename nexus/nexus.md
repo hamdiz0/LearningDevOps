@@ -11,9 +11,6 @@
 
 	* this is where you store or upload artifcats as long as it supports the artifact file format
 	* each format has its own repo (nexus supports multiple formats)
-
-
-
 	* you can also retrieve stored artifacts (a centrale storage) 
 	* you can host youre own repos (private) ,set up proxy repos (retrieve public repos and acces artifacts from nexus)
 	* it's best practice to manage all artifact repos in one spot and nexus provides that
