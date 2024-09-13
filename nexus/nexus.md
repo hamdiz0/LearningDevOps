@@ -52,3 +52,24 @@
 	* display info about listening network services :
 		- netstat -lnpt
 	* nexus service is listening on port 8081 ,nexus hosting server must be configured to allow in/outbound port 8081 traffic
+
+# `repo types` :
+
+## `proxy repo` :
+
+	* a repo that is linked to a remote one (maven-central)
+	* nexus will check if the needed artifact is cached locally if not it will redirect the request to a remote repo and stored it locally and this will save time 
+
+## `hosted repo` :
+
+	* a private internal repo owned by a company
+
+## `group repo` :
+
+	* a combination of hosted and proxy repos in a single URL making it easier to manage access to multiple repos at once
+
+# `creatinng a repo` :
+
+	* admin conf => repository => repository => add repo based on the desired format and type
+
+# `uploading jar files to nexus` :
