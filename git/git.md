@@ -1,7 +1,5 @@
 #                                        [`USING GIT ON A LOCAL MACHINE`]
 
-## `show version` :
-
 # `show version` :
 
         - git --version
@@ -85,8 +83,6 @@
 
 #                                        [`USING GIT REMOTLY`]
 
-## `local/remote communication` :
-
 # `local/remote communication` :
 
         * it's better to initialize the repo on the remote web service first
@@ -132,12 +128,10 @@
         - printf "host=github.com\nprotocol=https\n" | git credential fill (chow pat conf)
         - printf "host=github.com\nprotocol=https\n" | git credential reject (remove pat conf)
 
-##                                       [`BRANCHES`]
+#                                        [`BRANCHES`]
 
 * it's better to work in feature branches than merge changes into the main branchs
-
-## `create and switch between branches` :
-
+* 
 # `create and switch between branches` :
 
 	* it's better to pull from main (remote) before creating a branch
@@ -192,8 +186,6 @@
         - git reset --hard "hash"|"branch(origin/main)" (move HEAD pointer to a specific commit)
 
 #                                        [`GIT WORKFLOWS WORKING WITH COLLABORATORS`]
-
-## `adding collaborators ` :
 
 # `adding collaborators ` :
 
