@@ -72,4 +72,22 @@
 
 	* admin conf => repository => repository => add repo based on the desired format and type
 
-# `uploading jar files to nexus` :
+# `creating an authorized user` :
+
+	* you can add users from the company system and configure acces permessions using the LDAP nexus integration 
+	* admin conf => users => create user 
+	* roles are needed to provide the minimum amount of permissions needed for a certain task
+	* admin conf => security => roles => create role
+	* privelige format : 
+		- nx-repository-<View | Admin (for admin preveliges)>-<repo name>-<Central | Public | Snapshot | Release>-<* (all preveliges) ,delete ,edit ,read>
+	* admin preveliges are usually for the admins of nexus hwo take care of backups and plugins in nexus
+	* normal user are usaully devs hwo want to upload or retrieve artifacts
+	* "View" preveliges are enuf for uploading and retrieving nexus repos
+	* it make sense to only give "Snapshot" priveliges to normal user as they can deploy thier unstable releases
+		- nx-repository-view-maven2-maven-snapshots-*
+	* the created role is now assinable to any user
+
+# `uploading jar files to nexus (maven & gradle) ` :
+
+	* uploading a jar file to an existing repo on nexus requires configuring "Nexus Repo URL" and "Credentials" 
+	* not the credantials of the admin but rather the users that have upload permissions
