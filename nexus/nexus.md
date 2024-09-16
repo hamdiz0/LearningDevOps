@@ -106,14 +106,21 @@
 					name 'nexus'
 					url "http://<nexus ip>:<nexus port>/<path to repo>"
 						"http://192.168.1.16:8081/repository/maven-snapshots/"
+					allowInsecureProtocol = true (allows http traffic)
 					credentials {
-						username XXX
-						password XXX
+						username project.<username-property>
+						password project.<password-property>
 					}
 				}
 			}
 		}
-	* user name and password must be added to a "gradle.proprities" file not directly in the "build.gradle" file (checked into version control) 
-	* gradle.proprities :
-		- repo-user = <user name>
-		- repo-password = <password>
+	* user name and password must be added to a "gradle.properties" file not directly in the "build.gradle" file (checked into version control) 
+	* gradle.properties :
+		- <username-property> = <username>
+		- <password-property> = <password>
+	* set the same name "my-app" ("build/libs/my-app-$version"+".jar") in the settings.gradle : 
+		- rootProject.name = 'my-app'
+	* build the project :
+		- gradle build
+	* publish to repo :
+		- gradle publish
