@@ -91,3 +91,29 @@
 
 	* uploading a jar file to an existing repo on nexus requires configuring "Nexus Repo URL" and "Credentials" 
 	* not the credantials of the admin but rather the users that have upload permissions
+	* after creating an authorized user ,configs must be added to the "build.gradle" :
+		- apply plugin: 'maven-publish'
+		- publishing { (what to publish)
+			publications {
+				maven(MavenPublication){
+					artifact("build/libs/my-app-$version"+".jar"){
+						extention 'jar'
+					}
+				}
+			}
+			repositories { (where to publish)
+				maven { 
+					name 'nexus'
+					url "http://<nexus ip>:<nexus port>/<path to repo>"
+						"http://192.168.1.16:8081/repository/maven-snapshots/"
+					credentials {
+						username XXX
+						password XXX
+					}
+				}
+			}
+		}
+	* user name and password must be added to a "gradle.proprities" file not directly in the "build.gradle" file (checked into version control) 
+	* gradle.proprities :
+		- repo-user = <user name>
+		- repo-password = <password>
