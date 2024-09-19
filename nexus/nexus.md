@@ -89,6 +89,8 @@
 
 # `uploading jar files to nexus (maven & gradle) ` :
 
+## `using gradle` :
+
 	* uploading a jar file to an existing repo on nexus requires configuring "Nexus Repo URL" and "Credentials" 
 	* not the credantials of the admin but rather the users that have upload permissions
 	* after creating an authorized user ,configs must be added to the "build.gradle" :
@@ -124,3 +126,7 @@
 		- gradle build
 	* publish to repo :
 		- gradle publish
+
+## `using maven` :
+
+	*
