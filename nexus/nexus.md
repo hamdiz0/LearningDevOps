@@ -140,6 +140,3 @@
 				</plugin>
 			</plugins>
 	  	  <build>
-	* publish to nexus :
-		- 
-
