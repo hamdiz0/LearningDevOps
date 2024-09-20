@@ -132,10 +132,16 @@
 	* basicly same process like gradle :
 	- <build>
 		<plugins>
-			<plugin>
+			<plugin> (define a new plugin)
 				<groupId>org.apche.maven.plugins</groupId>
 				<artifactId>maven-deploy-plugin</artifactId>
 				<version>3.1.1</version>
 			</plugin>
+
+			<plugin> (use the plugin)
+				<groupId>org.apche.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+			</plugin>
+
 		</plugins>
 	  <build>
