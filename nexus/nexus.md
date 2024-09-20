@@ -129,13 +129,17 @@
 
 ## `using maven` :
 
-	* basicly same process like gradle :
-	- <build>
-		<plugins>
-			<plugin>
-				<groupId>org.apche.maven.plugins</groupId>
-				<artifactId>maven-deploy-plugin</artifactId>
-				<version>3.1.1</version>
-			</plugin>
-		</plugins>
-	  <build>
+	* basicly same process like gradle 
+	* setting up a required plugin :
+		- <build>
+			<plugins>
+				<plugin>
+					<groupId>org.apche.maven.plugins</groupId>
+					<artifactId>maven-deploy-plugin</artifactId>
+					<version>3.1.1</version>
+				</plugin>
+			</plugins>
+	  	  <build>
+	* publish to nexus :
+		- 
+

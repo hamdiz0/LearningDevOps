@@ -25,6 +25,7 @@
     * once the container completes its task or the process inside of it ,it exits 
  
 ## `Docker images` :
+
     * a Docker image is a Package ,Template or Plan (service ,application)
     * containers are running instances of images wich have their own environments
     * create personal images and push it to "Docker Hub" repo
@@ -88,6 +89,14 @@
     - docker rmi <image name|id> 
     - docker images (show current installed images)
         * all runnig instances "containers" of the image must be removed first
+
+## `remove all images` :
+    
+    - docker image prune -a
+
+## `delete all containers` :
+
+    - docker rm -f $(docker ps -aq)
 
 #                            [`Docker Run`]
 
@@ -320,7 +329,7 @@
     * version 2 : same as version 1 but all of the services must be under a proprity named "services" and the version must be specified 
     * version 2 will eleminate the need for links as it sets up a bridged connection between services automaticly 
         - docker-compose file :
-            version: 2
+            version: '2'
             services:
                 same code as version 1 but without the links part
         * to set dependencys between certain services u can add "depends_on" attribute :
@@ -334,7 +343,7 @@
 
         * say if we want to split these services into two networks "back-end" and "front-end"
         - docker-compose file :
-            version: 2
+            version: '2'
             services:
                 redis:
                     image: redis
@@ -386,12 +395,14 @@
 ## `deploy a private regitry` :
     
     * create a custom registry :
-        - docker run -d -p 5000:5000 --name <name> <registry name>
+        - docker run -d -p 5000:5000 --name <name> --restart <always> <registry name> 
     * pushing an image to the registry :
-        - docker image tag <image> <localhost|ip@>:<5000>/<image>
+        - docker image tag <image> <localhost|ip@>:<5000>/<image> (change image tag)
         - docker push <localhost|ip@>:<5000>/<image>
     * pulling an image from a custom registry :
         - docker pull <localhost|ip@>:<5000>/<image>
+    * checking pushed images :
+        - curl -X GET localhost:5000/v2/_catalog
 
 #                            [`DOCKER ENGINE ,STORAGE & NETWORK`]
 
