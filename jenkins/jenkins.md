@@ -1,4 +1,4 @@
-# `jenkins` :
+#                             [`JENKINS`]
 
     * jenkins is a popular tool used for build automation and continious integration
 
@@ -27,7 +27,7 @@
 
 <img src="img/jen1.PNG" width="100%">
 
-# `build automation` :
+#                             [`Build Automation`]
 
     * is the process of automating :
         - getting the source code 
@@ -46,7 +46,7 @@
         - all necessary tools installed
         - trigger the build automaticly
 
-# `CI/CD` :
+#                             [`CI/CD`]
 
     * CI/CD is the process of automating the whole software release cycle :
         - continious integrattion (CI) : new code changes are continuously built ,tested and merged 
@@ -54,20 +54,20 @@
     
 <img src="img/jen2.PNG" width="100%">
 
-# `setting up jenkins` :
+#                             [`Setting up Jenkins`]
 
     * it's better to set up jenkins as a docker container in a server :
         - docker run -v /home/hamdi/jenkins:/var/jenkins_home -p 8080:8080 -p 50000:50000 -u root jenkins/jenkins (-u:user ,-v:volume mapping ,-p:port mapping ,port 50000 is where jenkins master and the working nodes communicate)
         - docker exec -it <container name|id> bash (open a bash session inside the container)
 
-# `plugins and tools` :
+#                             [`Plugins and Tools`]
 
     * you can add tools and plugins from the jenkins ui under the manage/administer tab :
         - you need download the plugin from the plugin tab (avaible plugins) first then installed in the tools tab 
     * it's also possible with shell commands in the jenkins container :
         - docker exec -it <jenkins container name|id > <bash>
 
-# `job types` :
+#                             [`Job Types`]
 
 ## `freestyle` :
 
@@ -84,7 +84,7 @@
 
     - creates a set of pipline projects according to detected branches in one SCM repo (Source code management is used to track modifications to a source code repository)
 
-# `setting up a job` :
+#                             [`Setting Up a Job`]
 
     * choose job type
     * job => configure => build environment => build steps => command: you can execute shell commands as long as these tools are installed using shell in the container (commands of tools installed from the ui won't work)
@@ -95,7 +95,7 @@
     * see build status in the "status" tab
     * and other options like delete and see changes
 
-# `git configuration` :
+#                             [`Git Configuration`] 
 
     * job => configure => source code manegement : you can select the "git" option to sync a project repo
     * credentials must be added in order to acces the git repo : select "add" under credentials and add user name and password of the git repo*
@@ -109,14 +109,14 @@
     * you can find all created jobs with their information (log files ,builds) under the "jobs" dir 
     * the "git checkout" is under "/var/jenkins_home/workspace/<job name>" (you will find the actual repo source code)
 
-# `scripts` :
+#                             [`Scripts`]
 
     * jenkins can run sript files located in a synced git repo 
     * job => configure => build environment => build steps => command :
         - chmod +x <script> (needed execute permissions)
         - ./<script>
 
-# `run tests and build a java app` :
+#                             [`Run Tests and Build a Java App`]
 
     * example of retriving a java-maven app from a git repo ,run test and build a jar file   
 
@@ -129,7 +129,7 @@
     * jenkins will checkout the git repo first ,run tests than package the app into a jar file (dependencies will be installed in the process)
     * a "target" folder is created containing the jar file
 
-# `doker in jenkins` :
+#                             [`Doker in Jenkins`]
 
 ## `setting up docker in jenkins` :
 
