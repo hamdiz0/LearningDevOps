@@ -1,4 +1,4 @@
-# `nexus` :
+#                             [`NEXUS`]
 	
 	* nexus is an artifact repo manager
 
@@ -33,7 +33,7 @@
 	* search functionality across projects and artifact repos to retrieve the desired version 
 	* user token support (non human user authentication) wich helps with integration in the CI/CD pipline
 
-# `setting up nexus` :
+#                             [`Setting up Nexus`]
 	
 	* download tar file from "https://sonatype-download.global.ssl.fastly.net/repository/downloads-prod-group/3/nexus-3.72.0-04-unix.tar.gz"
 		- wget <url>
@@ -53,7 +53,7 @@
 		- netstat -lnpt
 	* nexus service is listening on port 8081 ,nexus hosting server must be configured to allow in/outbound port 8081 traffic
 
-# `repo types` :
+#                             [`Repo Types`]
 
 ## `proxy repo` :
 
@@ -68,11 +68,11 @@
 
 	* a combination of hosted and proxy repos in a single URL making it easier to manage access to multiple repos at once
 
-# `creatinng a repo` :
+#                             [`Creatinng a Repo`]
 
-	* admin conf => repository => repository => add repo based on the desired format and type
+	* admin conf => repository => repositories => add repo based on the desired format and type
 
-# `creating an authorized user` :
+#                             [`Creating an Authorized User`]
 
 	* you can add users from the company system and configure acces permessions using the LDAP nexus integration 
 	* admin conf => users => create user 
@@ -87,7 +87,7 @@
 		- nx-repository-view-maven2-maven-snapshots-*
 	* the created role is now assinable to any user
 
-# `uploading jar files to nexus (maven & gradle) ` :
+#                             [`Uploading Jar Files to Nexus (Maven & Gradle) `]
 
 ## `using gradle` :
 
@@ -130,7 +130,7 @@
 ## `using maven` :
 
 	* basicly same process like gradle :
-	- <build>
+	<build>
 		<plugins>
 			<plugin> (define a new plugin)
 				<groupId>org.apche.maven.plugins</groupId>
@@ -142,7 +142,102 @@
 				<groupId>org.apche.maven.plugins</groupId>
 				<artifactId>maven-deploy-plugin</artifactId>
 			</plugin>
-
 		</plugins>
-	  <build>
+	<build>
+	* add nexus information :
+		<distributionManagement>
+        	<snapshotRepository>
+            	<id>nexus-snapshots</id>
+            	<url>http://192.168.1.16:8081/repository/maven-snapshots/</url>
+        	</snapshotRepository>
+    	</distributionManagement> 
+	* adding credentials to allow accessing nexus 
+	* in /home/user/.m2 create a "settings.xml" file this is where all maven settings can be modified including credantials for all maven projects :
+		<settings>
+    		<servers>
+        		<server>
+            		<id>nexus-snapshots</id>
+            		<username>hamdi</username>
+            		<password>hamdi</password>
+        		</server>
+    		</servers>
+		</settings>
+	* to avoid the annonation error when building add :
+		<dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>1.3.2</version>
+        </dependency>
+	* build and deploy :
+		- apt install maven
+		- mvn package
+		- mvn deploy
 
+#                             [`Nexus API`]
+
+	* query nexus repo for different information :
+		- components
+		- rpositoreis
+		- versions
+	* these informations are required in CI/CD piplin build automation 
+	* fetch these informations to programaticly set the name and the version of an artifact to deploy it to an environment
+
+## `access the REST endpoint of nexus` :  
+
+		* curl & wget http request 
+		* show the list of avaible repos (authorized) :
+			- curl -u <nexus-user>:<nexus-user-password> '192.168.1.16:8081/services/rest/v1/repositories'
+		* show components of a specific repo :
+			- curl -u <nexus-user>:<nexus-user-password> '192.168.1.16:8081/services/rest/v1/components?repository=<nexus-repo>maven-snapshots'
+			- grep -E "id|path|name"
+		* show a specific component :
+			- curl -u <nexus-user>:<nexus-user-password> '192.168.1.16:8081/services/rest/v1/component/<component-id>'
+
+#                             [`Blob Storage`]
+
+	* nexus sotre uploded files locally or in the cloud (S3)
+	* blob store can be specific for a single repo or shared between multiple
+	* admin conf => repository => blob store => create blob store
+	* nexus local blob stores can be found in sonatype-work/nexus3/
+	* create blob store :
+		- type File or S3
+		- name
+		- path (an absolute path accessible by the user running the nexus server) 
+	* blob store can't be modified
+	* blob store used by a repo can't be deleted
+	=> you need to decide how many blob stores ,wich sizes and wich one for wich repo carefully
+
+#                             [`Components vs Assets`]
+
+## `components` :
+
+	* abstract high level definition of what you're uploading (java-app ,java-maven-app ,...) no matter what type (jar ,zip ,...) and what tool (maven ,gradle ,npm)
+
+## `assets` :
+
+	* actual physical packages/files 
+	* one component has one or more assets
+
+## `docker` :
+
+	* docker format gives assets unique identifiers (docker layers)
+	* docker layers contain assets
+	* 2 docker images => 2 components ,but share the same assets
+	* a docker layer can be an OS or a tool required by multiple docker images shared between them
+
+#                             [`Clean up Policies`]
+
+	* admin conf => repository => cleanup policies => create clanup policy :
+		- name
+		- format (nexus avaible formats)
+	* cleanup criteria :
+		- component age
+		- component usage
+		- release type (release ,pre-release ,snapshot)
+		- asset name matcher (regular expressions needed)
+	* you can add clean up policies to a repo in the repo settings
+	* clean up policies are actually marking files for deletion (soft deletion) so a deletion task need to be set 
+	* admin config => system => tasks  => create a task => admin compact blob store 
+	* you can wait for tasks to execute or run them manually :
+		- clean up service (soft deletion)
+		- compact store (delete marked files)
