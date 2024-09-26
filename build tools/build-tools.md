@@ -39,7 +39,8 @@
 # `basic commands` :
 
 ## `maven & gradle` :
-
+    * run a jar file :
+        - java -jar <file.jar>
     * maven :
         - mvn archetype:generate \
         > -DgroupId=com.example -DartifactId=<name> \ 
@@ -78,6 +79,44 @@
                             └── example
                                 └── AppTest.java
 
+# `dependencys and plugins` :
+
+    * for maven you can manage dependencies and plugins in the "pom.xml" file :
+        <plugins>
+            <plugin>
+				<groupId>org.apche.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>3.1.1</version>
+			</plugin>
+        </plugins>
+
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>3.0.5</version>
+            </dependency>
+        </dependencies>
+    * for gradle it's found in build.gradle :
+        plugins {
+            id 'java'
+            id 'org.springframework.boot' version '3.1.0'
+            id 'io.spring.dependency-management' version '1.1.0'
+            id 'maven-publish'
+        }
+        dependencies {
+            implementation 'org.springframework.boot:spring-boot-starter-web'
+            implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '5.2'
+            implementation 'javax.annotation:javax.annotation-api:1.3.2'
+            testImplementation group: 'junit', name: 'junit', version: '4.12'
+        }
+    * for npm it's in package.json :
+        "dependencies": {
+            "express": "^4.19.2",
+            "http-proxy-middleware": "^1.0.4",
+            "react-nodejs-example": "file:"
+        },      
+
 ## `npm` :
     
     * start basic project :
@@ -87,6 +126,12 @@
     * install needed dependencies :
         - npm install (installs dependencies found in the package.json)
         - npm install <dependencie> --save (install a dependencie and add it to the package.jso file)
+    * run ,build & test :
+        - npm run start
+        - npm run test
+        - npm run build
+    * package the application :
+        - npm pack (file.tgz "tar")
     * basic structure :
         my-app
         ├── package.json
@@ -94,5 +139,12 @@
         └── test
             └── test.js
 
+# `npm/yarn vs gradle/maven artifacts` :
 
-
+    * unlike the java artifacts ,node artifacts does not contain the application dependencies but there is way to add them throught additional modules
+    * to deploy a npm/yarn node based app ,dependencies must be installed on the server before unpacking the .zip/.tar/.. than run it
+    * there fore the artifact along with the pachage.json must be copied to the server inorder to deploy the application
+    * for nodejs apps the front/back-end can be packaged in the same artifact or packaged separetly   
+    * code needs to be compressed to shorten loading page time and transpiled to ensure compatability with most browsers ,this can be achieved with special tools like "webpack" 
+    * "webpack" traspiles ,minifies ,budels and compress code
+    * java has a standerdized both front/back-end single artifact build wich is a best-practice unlike node/js wich is more flexible in choice
