@@ -78,6 +78,25 @@
                         └── com
                             └── example
                                 └── AppTest.java
+    * pip :
+    - python -m venv <name> (best-practice to create a virtual environment)
+    - pip install setuptools wheel
+    - python setup.py sdist bdist_wheel (this will create tar files under dist/)
+    * basic structure :
+            my_project/
+            ├── my_project/
+            │   ├── __init__.py       # Makes this a package
+            │   ├── module1.py        # Your module(s)
+            │   ├── module2.py
+            ├── tests/
+            │   └── test_module1.py   # Optional test suite
+            ├── setup.py              # Metadata and package configuration
+            ├── README.md             # Optional: Project description
+            ├── LICENSE               # Optional: License file
+            ├── requirements.txt      # Optional: List of dependencies
+            └── MANIFEST.in           # Optional: Include additional files in the package
+        
+
 
 # `dependencys and plugins` :
 
@@ -116,6 +135,35 @@
             "http-proxy-middleware": "^1.0.4",
             "react-nodejs-example": "file:"
         },      
+    * for pip a file "setup.py" must be created :
+        from setuptools import setup, find_packages
+        setup(
+            name="my_project",              # Your package name
+            version="0.1",                  # Package version
+            description="A description of my project",  # Short description
+            author="Your Name",             # Your name
+            author_email="your_email@example.com",  # Your contact email
+            url="https://github.com/yourrepo/my_project",  # Project URL (optional)
+            packages=find_packages(),       # Automatically find packages in your project
+            install_requires=[              # Optional: list your dependencies
+                "numpy",
+                "requests",
+            ],
+            entry_points={                  # Optional: Entry points for command-line scripts
+                'console_scripts': [
+                    'my_project=my_project.module1:main_function',  # Custom command
+                ],
+            },
+            classifiers=[                   # Optional: Metadata classifiers
+                "Programming Language :: Python :: 3",
+                "License :: OSI Approved :: MIT License",
+                "Operating System :: OS Independent",
+            ],
+            python_requires='>=3.6',        # Specify Python version compatibility
+        )
+        
+
+
 
 ## `npm` :
     
@@ -139,12 +187,12 @@
         └── test
             └── test.js
 
-# `npm/yarn vs gradle/maven artifacts` :
+# `npm/yarn vs gradle/maven (package managers)` :
 
     * unlike the java artifacts ,node artifacts does not contain the application dependencies but there is way to add them throught additional modules
     * to deploy a npm/yarn node based app ,dependencies must be installed on the server before unpacking the .zip/.tar/.. than run it
-    * there fore the artifact along with the pachage.json must be copied to the server inorder to deploy the application
+    * therefore the artifact along with the pachage.json must be copied to the server inorder to deploy the application
     * for nodejs apps the front/back-end can be packaged in the same artifact or packaged separetly   
     * code needs to be compressed to shorten loading page time and transpiled to ensure compatability with most browsers ,this can be achieved with special tools like "webpack" 
-    * "webpack" traspiles ,minifies ,budels and compress code
-    * java has a standerdized both front/back-end single artifact build wich is a best-practice unlike node/js wich is more flexible in choice
+    * "webpack" traspiles ,minifies ,bundels and compress code
+    * js-framework/java has a standerdized both front/back-end single artifact build wich is a best-practice unlike js-framework/nodejs wich is more flexible in choice
