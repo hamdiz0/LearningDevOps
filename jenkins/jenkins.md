@@ -25,7 +25,7 @@
 
     - create actual jobs to run workflows (automate apps workflow)
 
-<img src="img/jen1.PNG" width="100%">
+<img src="img/jen1.PNG" width="100%" height="500px">
 
 #                             [`Build Automation`]
 
@@ -52,7 +52,7 @@
         - continious integrattion (CI) : new code changes are continuously built ,tested and merged 
         - continious deployment (CD) : automating further stages of the pipline ,automaticly deploying to different deployment environments including releasing production
     
-<img src="img/jen2.PNG" width="100%">
+<img src="img/jen2.PNG" width="100%" height="200px">
 
 #                             [`Setting up Jenkins`]
 
@@ -101,7 +101,7 @@
     * credentials must be added in order to acces the git repo : select "add" under credentials and add user name and password of the git repo*
     * it's also possible to select a specific branch if a repo containes  multiple
 
-<img src="img/jen3.PNG" width="100%">
+<img src="img/jen3.PNG" width="100%" height="400px">
     
     * jenkins checks out the source code locally in order to be able to run commands against the git repo like tests
     * build option will build the application locally
@@ -120,14 +120,21 @@
 
     * example of retriving a java-maven app from a git repo ,run test and build a jar file   
 
-<img src="img/jen4.PNG" width="100%">
+<img src="img/jen4.PNG" width="100%" height="400px">
 
     * sync repo with credentials "https://gitlab.com/hamdiz0/java-maven-app.git" (branch:jenkins jobs)
+
+<img src="img/jen5-git repo.PNG" width="100%" height="400px">
+
     * job => configure => build environment => build steps => add build step : choose maven : 
         - goals : test (test app)
         - goals (add a second step) : package (package to jar file)
+
+<img src="img/jen6 mvn test-package.PNG" width="100%" height="400px">
+
     * jenkins will checkout the git repo first ,run tests than package the app into a jar file (dependencies will be installed in the process)
     * a "target" folder is created containing the jar file
+
 
 #                             [`Doker in Jenkins`]
 
@@ -145,13 +152,41 @@
 
 ## `build & push docker images` :
 
-    * build an docker image of the "java-maven-app" :
+    * build a docker image of the "java-maven-app" :
         - docker build . -t hamdiz0/java-maven-app 
     * to push a docker image to a docker repo credentials must be added 
         * manage => credentials => store/system (of the related git repo credentials) => global credentials(unrestricted) => add credential
+
+<img src="img/jen9.PNG" width="100%" height="400px">
+
     * a plugin is needed to provide the user name and password of docker 
         * build environment => use secret text(s) or file(s) => username and password (seperated) => set user name (USER) and password (PASSWORD) variables
+
+<img src="img/jen7.PNG" width="100%" height="400px">
+
         - docker login -u $USER -p $PASSWORD
             - echo $PASSWORD | docker login -u USER --password-stdin (best practice)
         - docker push hamdiz0/java-maven-app
-    
+
+<img src="img/jen8 custom sctipt.PNG" width="100%" height="400px">
+
+    * in order to push from jenkins to the nexus docker repo it must be secured first 
+    * in the jenkins host where docker is installed (container or host where the actual docker installation exists) edit /etc/docker/docker.json :
+    - {
+        "insecure-registries": ["<nexus-ip@>:<port>"]
+      } 
+        - {
+            "insecure-registries": ["192.168.1.16:8082"]
+          }
+    * check connection :
+        docker login 192.168.1.16:8082
+    * restart docker to add changes :
+        - systemctl restart docker
+        - chmod 666 /var/run/docker.sock (redo essantial changes after restart) 
+    * add nexus credentials in jenkins (nexus user must have docker role permissions)
+    * modify the script :
+        docker build . -t <nexus-ip@>:<docker repo http port>/java-maven-app:1.1
+        echo $PASSWORD | docker login -u $USER --password-stdin   <nexus-ip@>:<docker repo http port>
+        docker push <nexus-ip@>:<docker repo http port>/java-maven-app:1.1
+<img src="img/jen10.PNG" width="100%" height="400px">   
+
