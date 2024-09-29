@@ -25,7 +25,7 @@
 
     - create actual jobs to run workflows (automate apps workflow)
 
-<img src="img/jen1.PNG" width="100%" height="500px">
+<img src="img/jen1.PNG" width="100%" height="450px">
 
 #                             [`Build Automation`]
 
@@ -101,7 +101,7 @@
     * credentials must be added in order to acces the git repo : select "add" under credentials and add user name and password of the git repo*
     * it's also possible to select a specific branch if a repo containes  multiple
 
-<img src="img/jen3.PNG" width="100%" height="400px">
+<img src="img/jen3.PNG" width="100%" height="300px">
     
     * jenkins checks out the source code locally in order to be able to run commands against the git repo like tests
     * build option will build the application locally
@@ -120,17 +120,17 @@
 
     * example of retriving a java-maven app from a git repo ,run test and build a jar file   
 
-<img src="img/jen4.PNG" width="100%" height="400px">
+<img src="img/jen4.PNG" width="100%" height="300px">
 
     * sync repo with credentials "https://gitlab.com/hamdiz0/java-maven-app.git" (branch:jenkins jobs)
 
-<img src="img/jen5-git repo.PNG" width="100%" height="400px">
+<img src="img/jen5-git repo.PNG" width="100%" height="300px">
 
     * job => configure => build environment => build steps => add build step : choose maven : 
         - goals : test (test app)
         - goals (add a second step) : package (package to jar file)
 
-<img src="img/jen6 mvn test-package.PNG" width="100%" height="400px">
+<img src="img/jen6 mvn test-package.PNG" width="100%" height="300px">
 
     * jenkins will checkout the git repo first ,run tests than package the app into a jar file (dependencies will be installed in the process)
     * a "target" folder is created containing the jar file
@@ -157,7 +157,7 @@
     * to push a docker image to a docker repo credentials must be added 
         * manage => credentials => store/system (of the related git repo credentials) => global credentials(unrestricted) => add credential
 
-<img src="img/jen9.PNG" width="100%" height="300px">
+<img src="img/jen9.PNG" width="100%" height="200px">
 
     * a plugin is needed to provide the user name and password of docker 
         * build environment => use secret text(s) or file(s) => username and password (seperated) => set user name (USER) and password (PASSWORD) variables
