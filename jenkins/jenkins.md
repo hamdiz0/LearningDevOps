@@ -157,7 +157,7 @@
     * to push a docker image to a docker repo credentials must be added 
         * manage => credentials => store/system (of the related git repo credentials) => global credentials(unrestricted) => add credential
 
-<img src="img/jen9.PNG" width="100%" height="400px">
+<img src="img/jen9.PNG" width="100%" height="300px">
 
     * a plugin is needed to provide the user name and password of docker 
         * build environment => use secret text(s) or file(s) => username and password (seperated) => set user name (USER) and password (PASSWORD) variables
