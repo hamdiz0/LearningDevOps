@@ -158,7 +158,7 @@
         * manage => credentials => store/system (of the related git repo credentials) => global credentials(unrestricted) => add credential
 
 <img src="img/jen9.PNG" width="100%" height="200px">
-
+ 
     * a plugin is needed to provide the user name and password of docker 
         * build environment => use secret text(s) or file(s) => username and password (seperated) => set user name (USER) and password (PASSWORD) variables
 
@@ -188,5 +188,104 @@
         docker build . -t <nexus-ip@>:<docker repo http port>/java-maven-app:1.1
         echo $PASSWORD | docker login -u $USER --password-stdin   <nexus-ip@>:<docker repo http port>
         docker push <nexus-ip@>:<docker repo http port>/java-maven-app:1.1
+        
 <img src="img/jen10.PNG" width="100%" height="400px">   
 
+#                             [`Freestyle to Pipline`]
+
+## `Freestyle vs Pipline` :
+
+    * running multiple steps (build ,package ,...) in a freestyle job is not considered a best practice so setting a single step per job is better
+    * this is possible by chaining freestyle jobs 
+
+<img src="img/jen11.PNG" width="100%" height="400px">
+
+    * trigger another job after complition of the one before
+
+<img src="img/jen12.PNG" width="100%" height="400px"> 
+
+    * this "chained freestyle jobs" type poses limitations like depending on the UI (plugins) wich by it self provides limitted options 
+    * this not suitable for complex workflows 
+    * this makes "pipline jobs type" a better option for it's flexibility:
+        - suitable for CI/CD
+        - scripting pipline as code 
+
+## `Pipline` : 
+
+    * pipline job require a script written in "groovy"
+    * it's a best practice to add "jenkinsfile" wich contains the pipline configuration in the code manegement repo (SCM)
+
+<img src="img/jen13.PNG" width="100%" height="400px"> 
+
+#                             [`Pipline Syntax`]
+
+## `scripted syntax` :
+
+    * based on "groovy" with advanced scripting capabilities and high flexibility :
+    * structure :
+        node {
+            // groovy script
+        }
+    * the "node" (scripted) definition is equivelent of "pipline + agent" (declarative)  
+        
+## `declarative syntax` :
+
+    * easier to work with ,but dosen't have similar features like the scripted one
+    * you have to follow pre-defined structure wich can be a bit limmiting 
+    * "agent any" means the script can run on any available jenkins agent like a node ,an executer on that node ,etc (this is relevent for jenkins cluster "master and workers")
+    * structure :
+        pipeline {      //must be top level
+            agent any   //where to execute
+            stages{     //where work happens
+                stage( <stage name> "build"){
+                    steps {
+                        // stage step commands
+                    }
+                }
+            }
+            post { (these will execute ofter job completion)
+                always {
+                    // post job step (send email)
+                }
+                success {
+                    // executes if the job was seccessfull
+                }
+                failure {
+                    // executes if the job was unseccessfull
+                }
+                ...
+            }
+        }
+    * you can add conditional expressions in the job stages :
+        stages{     
+            stage("test"){
+                when { // when this stage will execute
+                    expression { // BRANCH_NAME is a jenkins predefined variable
+                        BRANCH_NAME == 'dev' // checks if the working branch is 'dev' else it this stage will not execute 
+                        BRANCH_NAME == 'dev' || BRANCH_NAME == 'main' // either one
+                    }
+                }
+                steps {
+                    // stage step commands
+                }
+            }
+        }
+    * you can define youre own variables and use them in the script :
+        CODE_CHANEGES == getGitChanges() // a custom function with "groovy" script
+        pipeline {      
+            agent any   
+            stages{     
+                stage("build"){
+                    when { 
+                        expression {
+                            BRANCH_NAME == 'dev' && CODE_CHANGES == true // this will run if the branch is dev and the custom function returns true
+                        }
+                    }
+                    steps {
+                        // stage step commands
+                    }
+                }
+            }
+        }
+
+## `jnekins environment variables` :
