@@ -289,3 +289,41 @@
         }
 
 ## `jnekins environment variables` :
+
+    * you can find all jenkins env-vars in :
+        - <jenkins url|ip@>/env-vars.html/
+        - http://192.168.1.16:8080/env-vars.html/ 
+    * you can define you're own env-vars in the environment section:
+        pipeline {      
+            agent any
+            environment {
+                NEW_VERSION = '1.5.0'
+                SERVER_CREDENTIALS = credentials('<credential id>') // a seperate plugin called "credentials binfding" is needed
+            }
+            stages {
+                stage("build"){
+                    steps {
+                        echo "building version ${NEW_VERSION}" // double quotes
+                     }
+                }
+                stage("deploy"){
+                    steps {
+                        echo "deploing with ${SERVER_CREDENTIALS}" 
+                    }
+                }
+            }
+        } 
+    * another way to get credentials is by using the wrapper syntax this only avaible if the "Credentials" and the "Credentials Biding" plugins are avaible in jenkins :
+        stage("deploy"){
+                    steps {
+                        echo "deploing to server"
+                        withCredentials([
+                            usernamePassword ( credentials:'<credential id>',
+                            usernameVariable:USER, // store user variable in USER
+                            passwordVariable:PASSWORD,) // store password variable in USER
+                        ]) {
+                            sh "<script> ${USER} ${PASSWORD}" // pass USER and PASSWORD to a script
+                        }
+                    }
+                }
+    * 
