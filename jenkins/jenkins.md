@@ -288,7 +288,7 @@
             }
         }
 
-## `jnekins environment variables` :
+## `jenkins environment variables` :
 
     * you can find all jenkins env-vars in :
         - <jenkins url|ip@>/env-vars.html/
@@ -399,9 +399,19 @@
         input {
             message "<meassage>"
             ok "<message>"
-            parameters { 
+            parameters { // parameters added here will only work under this stage (scoped parameters)
+                
 <a href="#parameters">parameters syntax</a>
 
             }
         }
+        steps {
+            script{
+                    echo "${variable}" //variable name not params.variable
+                }
+        }
     }
+    * assining user input to a variable (script block only) :
+        script {
+            env.ENV = input message: "<message>" ,ok: "<message>" ,parameters: [<parameter>] 
+        } 
