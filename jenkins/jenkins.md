@@ -347,3 +347,61 @@
             booleanParam(name:'<name>' ,defaultValue: true|false ,description:'<details>')
             password(name: '<name>' ,defaultValue: '<value>' ,description:'<details>')
         }
+    * call parameters in youre expressions :
+        stage('deploy') {
+            when {
+                expression {
+                    params.executeTests == true
+                }  
+            }
+            steps {
+                // step commands
+            }
+        }
+
+## `external script` :
+
+    * you can add groovy scripts in the script block :
+        stage("build") {
+            steps {
+                script {
+                    // groovy script 
+                }
+            }
+        }
+    * any related groovy syntax commands and variables must be under the script block 
+    * add external groovy script (add a stage where you load youre scripts) :
+        def gv // define the script variable
+        pipline {
+            agent any
+            stages {
+                stage("init") {
+                    steps {
+                        script {
+                            gv = load "script.groovy" // gv is a variable holing the imported script
+                        }
+                    }
+                }
+            }
+        }
+    * all environment variables and paramaters are avaible and accessable by the script (you can declare them in the actual external groovy script)
+
+## `replay build option` :
+
+    * #<build number> => replay
+    * you can add and test changes with out pushing to the git repo
+
+<img src="img/jen14.PNG" width="100%" height="500px">
+
+## `user input` :
+
+    stage("<name>") {
+        input {
+            message "<meassage>"
+            ok "<message>"
+            parameters { 
+<a href="#parameters">parameters syntax</a>
+
+            }
+        }
+    }
