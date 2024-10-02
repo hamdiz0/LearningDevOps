@@ -260,7 +260,7 @@
         stages{     
             stage("test"){
                 when { // when this stage will execute
-                    expression { // BRANCH_NAME is a jenkins predefined variable
+                    expression { // BRANCH_NAME is a jenkins predefined variable (for pipline use GIT_BRANCH ,BRANCH_NAME is only present for multibranch)
                         BRANCH_NAME == 'dev' // checks if the working branch is 'dev' else it this stage will not execute 
                         BRANCH_NAME == 'dev' || BRANCH_NAME == 'main' // either one
                     }
@@ -303,6 +303,7 @@
             stages {
                 stage("build"){
                     steps {
+                        sh "env" // shows all environments vars
                         echo "building version ${NEW_VERSION}" // double quotes
                      }
                 }
@@ -315,15 +316,24 @@
         } 
     * another way to get credentials is by using the wrapper syntax this only avaible if the "Credentials" and the "Credentials Biding" plugins are avaible in jenkins :
         stage("deploy"){
-                    steps {
-                        echo "deploing to server"
-                        withCredentials([
-                            usernamePassword ( credentials:'<credential id>',
-                            usernameVariable:USER, // store user variable in USER
-                            passwordVariable:PASSWORD,) // store password variable in USER
-                        ]) {
-                            sh "<script> ${USER} ${PASSWORD}" // pass USER and PASSWORD to a script
-                        }
-                    }
+            steps {
+                echo "deploing to server"
+                withCredentials([
+                    usernamePassword ( credentialsId:'<credential id>', 
+                    usernameVariable:'USER', // store user variable in USER
+                    passwordVariable:'PASSWORD',) // store password variable in USER
+                ]) {
+                    sh "<script> ${USER} ${PASSWORD}" // pass USER and PASSWORD to a script
                 }
-    * 
+            }
+        }
+
+## `tools` :
+    
+    * this section is used to access build tools for a project (maven ,npm) :
+        tools {
+            maven
+            gradle
+            jdk
+        }
+    * these tools must be preinstalled in jenkins 
