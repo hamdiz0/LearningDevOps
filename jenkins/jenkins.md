@@ -337,3 +337,13 @@
             jdk
         }
     * these tools must be preinstalled in jenkins 
+
+## `parameters` :
+
+    * the parameter block is used to define input parameters for the pipline with can change the behavior of the jenkinsfile script 
+        parameters {
+            string(name:'<name>' ,defaultValue:'<value>' ,description:'<details>')
+            choice (name:'<name>' ,choices:['choice1','choice2','choice3'] ,description:'<details>')
+            booleanParam(name:'<name>' ,defaultValue: true|false ,description:'<details>')
+            password(name: '<name>' ,defaultValue: '<value>' ,description:'<details>')
+        }
