@@ -93,6 +93,7 @@
 ## `remove all images` :
     
     - docker image prune -a
+    - docker rmi -f $(docker images | grep "<none>" | awk '{print $3}') // <none> images
 
 ## `delete all containers` :
 
