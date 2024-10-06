@@ -332,8 +332,9 @@
     
     * this section is used to access build tools for a project (maven ,npm) :
         tools {
-            maven
-            gradle
+            <tool> <custom set name in the tools conf>
+            maven "maven-3.9.9" 
+            gradle 
             jdk
         }
     * these tools must be preinstalled in jenkins 
@@ -378,10 +379,18 @@
                 stage("init") {
                     steps {
                         script {
-                            gv = load "script.groovy" // gv is a variable holing the imported script
+                            gv = load "script.groovy" // gv is a variable holding the imported script
+                        }
+                    }*
+                }
+                stage("build"){
+                    steps{
+                        script{
+                            gv.build() // call a function from the imported script
                         }
                     }
                 }
+                
             }
         }
     * all environment variables and paramaters are avaible and accessable by the script (you can declare them in the actual external groovy script)
@@ -391,7 +400,7 @@
     * #<build number> => replay
     * you can add and test changes with out pushing to the git repo
 
-<img src="img/jen14.PNG" width="100%" height="500px">
+<img src="img/jen14.PNG" width="100%" height="450px">
 
 ## `user input` :
 
@@ -399,10 +408,8 @@
         input {
             message "<meassage>"
             ok "<message>"
-            parameters { // parameters added here will only work under this stage (scoped parameters)
-                
-<a href="#parameters">parameters syntax</a>
-
+            parameters { 
+                // parameters added here will only work under this stage (scoped parameters)
             }
         }
         steps {
@@ -415,3 +422,22 @@
         script {
             env.ENV = input message: "<message>" ,ok: "<message>" ,parameters: [<parameter>] 
         } 
+
+#                             [`MultiBranch`]
+
+    * multibranch is used for multibranch git repos ,it basicly sets a seperate pipline for each branch
+
+<img src="img/jen17.PNG" width="100%" height="500px">
+
+## `branch scanning` :
+
+    * dicvover branchs based on a specifc option like regular expressions 
+    * create a pipline based on the branch type (bug-fix ,features)
+
+<img src="img/jen15.PNG" width="100%" height="400px">
+
+    * filter branchs based on regular expression (click "?" for help)
+
+<img src="img/jen16.PNG" width="100%" height="400px">
+
+    
