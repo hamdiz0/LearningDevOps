@@ -440,4 +440,6 @@
 
 <img src="img/jen16.PNG" width="100%" height="400px">
 
-    
+    * every branch must have a "jenkinsfile" preferably the same each
+
+<img src="img/jen18.PNG" width="100%" height="500px">
