@@ -1,5 +1,46 @@
 #                           [`DevOps`]
 
+    - What is DevOps ?
+
+## `devops is not` :
+
+    - devops is not a tool 
+    - not a separate team 
+    - not just automation
+    - not simply combining Dev and ops teams
+
+    => devops is not just Dev and Ops working together while remaning in thier seperate silos
+
+## `devops is` :
+
+    - devops is based on agile priciples
+    - devops is based on CI/CD
+    - delevering software in a rapid continuous manner
+    - Dev and Ops teams working togther not in seperate silos
+
+    => devops is a "CULTURE CHANGE" in wich Dev and Ops engineers work together during the entire development cycle
+    
+    => devops is a methodology that integrates software development (Dev) and IT operations (Ops) to improve collaboration, accelerate software delivery, and ensure more reliable system 
+
+#                           [`When to use DevOps ?`]
+
+## `when` :
+
+    - rapid and Frequent Releases (frequent and rapid updates)
+    - collaboration and Communication Issues (devops breaks silos and improve collaboration)
+    - scalability and Growth (devops work well with cloud-based environment ,automated infrastructure and CI/CD ...)
+    - continuous Feedback and Improvement (user feedback helps)
+    - complex Systems with High Availability (mission-critical systems where uptime and reliability are essential)
+    - microservices Architecture
+
+## `when not` :
+
+    - small, static projects
+    - heavily regulated industries with slow change (goverment or medical fields)
+    - Legacy Systems with Monolithic Architecture
+
+#                           [`Software Development Roles`]
+
     - there are different roles in software development & delevery process
 
 ## `software development` :
@@ -117,5 +158,6 @@
     
 
 #                            [`at the core of devops`]
+
     - CI/CD pipline for an automated release process
     - commit code => test => build => push => deploy

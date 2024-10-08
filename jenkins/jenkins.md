@@ -423,6 +423,13 @@
             env.ENV = input message: "<message>" ,ok: "<message>" ,parameters: [<parameter>] 
         } 
 
+## `creden,tials` :
+
+    * there is 3 types of credentials in jenkins :
+        - global : avaible for evry job type
+        - system only : avaible for system addmins
+        - multibranch scoped : only avaible for a particular multibranch pipline
+
 #                             [`MultiBranch`]
 
     * multibranch is used for multibranch git repos ,it basicly sets a seperate pipline for each branch
@@ -443,3 +450,28 @@
     * every branch must have a "jenkinsfile" preferably the same each
 
 <img src="img/jen18.PNG" width="100%" height="500px">
+
+    * you can add scoped credentials particular to a multibranch pipline 
+
+<img src="img/jen19.PNG" width="100%" height="400px">
+
+#                             [`Shared Library`]
+    
+    * a shared library is an extention to the pipline it has it's own git repo 
+    * it's written in groovy script
+    * you can write the logic that's going to be shared accross applications in a shared library and reference that logic in jenkins file for each project
+    * share logic using a shared library between micro services as they usually share the same logic base (java for example)
+ 
+<img src="img/jen20.PNG" width="100%" height="400px">
+
+    * share logic between multiple projects (company) regardless if they share the same logic base (tech stack) or not
+
+<img src="img/jen 21 shared library.PNG" width="100%" height="400px">
+
+    * this improve collaboration through sharing 
+
+<img src="img/jen22.PNG" width="100%" height="400px">
+
+## `creating a shared library` : 
+
+<img src="img/jen 23 create a shared libray.PNG" width="100%" height="400px">
