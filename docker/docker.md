@@ -98,7 +98,8 @@
 ## `delete all containers` :
 
     - docker rm -f $(docker ps -aq)
-
+    - docker rm -f $(docker ps -a | grep Exited | awk '{print $1}') //Exited containers
+    
 #                            [`Docker Run`]
 
  * containers run under a docker host
