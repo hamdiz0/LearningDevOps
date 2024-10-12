@@ -423,7 +423,7 @@
             env.ENV = input message: "<message>" ,ok: "<message>" ,parameters: [<parameter>] 
         } 
 
-## `creden,tials` :
+## `credentials` :
 
     * there is 3 types of credentials in jenkins :
         - global : avaible for evry job type
@@ -541,5 +541,7 @@
     * calling a function with parameters :
         script {
             <file name of the function> '<value>'
-            dockerBuild 'hamdiz0/java-maven-app:1.3'
+            dockerbuild('hamdiz0/va-vote','1.0','docker-repo','./vote')
         }
+
+#                             [``]
