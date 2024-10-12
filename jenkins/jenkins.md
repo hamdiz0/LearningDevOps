@@ -486,7 +486,7 @@
     * src folde for helper code
     * resources folder for libraries and other files
 
-<img src="img/jen24.PNG" width="100%" height="400px">
+<img src="img/jen24.PNG" width="100%" height="500px">
 
     * create a groovy script for each function (sharable logic) under vars :
         #!/user/bin/env groovy (ensure that the script will execute correctly)
