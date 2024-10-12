@@ -457,7 +457,8 @@
 
 #                             [`Shared Library`]
     
-    * a shared library is an extention to the pipline it has it's own git repo 
+    * used to share parts of piplines between various projects to reduce duplication
+    * shared libraries can be defined in external git repositories and loaded into existing pipelines
     * it's written in groovy script
     * you can write the logic that's going to be shared accross applications in a shared library and reference that logic in jenkins file for each project
     * share logic using a shared library between micro services as they usually share the same logic base (java for example)
@@ -474,4 +475,71 @@
 
 ## `creating a shared library` : 
 
+    * create a git repo 
+    * write the groovy code
+    * share the library globally or for a project
+    * use the shared library in jenkins file to extend the pipeline
+ 
 <img src="img/jen 23 create a shared libray.PNG" width="100%" height="400px">
+
+    * vars folder containes functions ,each function/step has it's own groovy script file and can be called from the jenkinsfile
+    * src folde for helper code
+    * resources folder for libraries and other files
+
+<img src="img/jen24.PNG" width="100%" height="400px">
+
+    * create a groovy script for each function (sharable logic) under vars :
+        #!/user/bin/env groovy (ensure that the script will execute correctly)
+        def call () {
+            // function logic
+        }  
+    * making a shared library globaly avaible 
+    * dashboard => administer jenkins => system => global 
+
+<img src="img/jen25.PNG" width="100%" height="400px">
+
+## `using a global shared library` :
+
+    * in the jenkins file of a pipline :
+        @Library('<shared library name>')_ // add the '_' if the pipline is after
+        pipline {...}
+        @Library('<shared library name>') // no need to add the '_'
+        def gs
+        pipline{...}
+    * calling functions from a shared library :
+        stage("build"){
+            steps{
+                script{
+                    <file name of the function under vars>()
+                    jarBuild()
+                }
+            }
+        }
+
+## `using a scoped shared library` :
+
+    * a shared library for a specific pipline 
+    * in the jenkins file of the pipline :
+        library identifier: 'jenkins-scoped-library' ,retriever: modernSCM(
+            [$class:'<name>' ,
+            remote: '<repo-url>',
+            credentailsId:'<credentails id>']
+        )
+
+## `adding parameters to a function` :
+
+    * adding parameters for a function in a shared library is convinient cause it makes it more general :
+        #!/user/bin/env groovy
+        def call(
+            String <variable>
+        ){
+            sh "deploy $<variable>" // double quotes ("") for this to work
+        }
+
+<img src="img/jen26.PNG" width="100%" height="350px">
+
+    * calling a function with parameters :
+        script {
+            <file name of the function> '<value>'
+            dockerBuild 'hamdiz0/java-maven-app:1.3'
+        }

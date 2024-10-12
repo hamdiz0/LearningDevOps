@@ -362,8 +362,8 @@
 # `ssh` :
 
         (ssh) ssh user|ip@ , scp file user|ip@:path (copy files securly)
-        (ssh) /etc/ssh/sshd_config
-        (ssh) Port (define a port),PermintRootLogin (disable root login for safety),AllowUsers (define allowed users) ,PasswordAthentication
+        (ssh) /etc/ssh/sshd_config :
+                (ssh) Port (define a port),PermintRootLogin (disable root login for safety),AllowUsers (define allowed users) ,PasswordAthentication
         (ssh) firewall-cmd --add-service ssh --permenet ;firewall-cmd --reload ,firewall-cmd --add-port 2022/tcp --permenet ;firewall-cmd --reload (red hat)
         (ssh) ufw allow OpenSSH ,ufw allow 2022/tcp (debian)
         (ssh) ssh-keygen ,ssh-copy-id "user@ip" ,ssh-agent /bin/bash ,ssh-add
