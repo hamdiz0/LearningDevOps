@@ -1,4 +1,4 @@
-#                             [`NEXUS`]
+# `NEXUS`
 	
 	* nexus is an artifact repo manager
 
