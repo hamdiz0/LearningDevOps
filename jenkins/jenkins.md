@@ -546,10 +546,26 @@
 
 ## `shared library class` :
 
-    * creating a class that function groovy files inherit from :
+    * creating a class that function groovy files inherit from 
+    * create a groovy package "<PackageName>/<CalssName>.groovy" :
+        #!/user/bin/env groovy
+        package <PackageName> // "com.example" containing folder of the class groovy file
+        class <ClassName> implements Serializable { // saving the state of the execution if the pipeline is paused and resumed
+            def script
+            <ClassName>(script){
+                this.script = script
+            }
+        }
+        def <Function> (<parameters>) {
+            // function logic
+        }
 
 <img src="img/jen27.PNG" width="100%" height="500px">
 
     * importing class logic to a function groovy file :
+        import <PackageName>.<CalssName>
+        def call (<parameters>){
+            return new <CalssName>.<Function>(<parameters>)
+        }
 
 <img src="img/jen28.PNG" width="100%" height="400px">
