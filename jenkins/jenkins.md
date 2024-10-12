@@ -544,4 +544,12 @@
             dockerbuild('hamdiz0/va-vote','1.0','docker-repo','./vote')
         }
 
-#                             [``]
+## `shared library class` :
+
+    * creating a class that function groovy files inherit from :
+
+<img src="img/jen27.PNG" width="100%" height="500px">
+
+    * importing class logic to a function groovy file :
+
+<img src="img/jen28.PNG" width="100%" height="400px">
