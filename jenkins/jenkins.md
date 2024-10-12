@@ -1,4 +1,4 @@
-#                             [`JENKINS`]
+# `JENKINS`
 
     * jenkins is a popular tool used for build automation and continious integration
 
