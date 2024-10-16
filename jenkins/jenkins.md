@@ -581,7 +581,7 @@
     * use "ngrok" if jenkins is running on a localhost :
         - ngrok http <host>:<port>
         - ngrok http localhost:8080
-    * in webhook payload field put "ngrok-url/github-webhook"
+    * in webhook payload field put "ngrok/jenkins-url/github-webhook"
 
 <img src="img/jen35.PNG" width="100%" height="400px">
 
@@ -611,3 +611,24 @@
 
 <img src="img/jen33.PNG" width="100%" height="400px">
 
+## `multibranch triggers` :
+
+    * a plugin called "Multibranch Scan Webhook Trigger" must be installed
+
+<img src="img/jen36.PNG" width="100%" height="400px">
+
+    * create a webhook in the git repo setting with url :
+        - <JENKINS_URL>/multibranch-webhook-trigger/invoke?token=<Trigger token>
+        - https://09e6-102-157-32-128.ngrok-free.app/multibranch-webhook-trigger/invoke?token=gitlab-token
+
+<br>
+
+    * gitlab :
+
+<img src="img/jen37.PNG" width="100%" height="400px">
+
+    * github :
+
+<img src="img/jen38.PNG" width="100%" height="400px">
+
+#                             [`Versioning`]
