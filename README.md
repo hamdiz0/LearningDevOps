@@ -1,6 +1,4 @@
-#                           [`DevOps`]
-
-    - What is DevOps ?
+#                           What is DevOps ?
 
 ## `devops is not` :
 
