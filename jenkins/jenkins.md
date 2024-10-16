@@ -569,3 +569,45 @@
         }
 
 <img src="img/jen28.PNG" width="100%" height="400px">
+
+#                             [`Job Triggers`]
+
+    * a job in jenkins can be triggered/built manually or automaticly by using git repo commits or scheduling
+
+<img src="img/jen29.PNG" width="100%" height="400px">
+
+## `using git commits` :
+
+    * use "ngrok" if jenkins is running on a localhost :
+        - ngrok http <host>:<port>
+        - ngrok http localhost:8080
+    * in webhook payload field put "ngrok-url/github-webhook"
+
+<img src="img/jen35.PNG" width="100%" height="400px">
+
+### `github` :
+
+    * for each repo in github you can add a webhook
+
+<img src="img/jen34.PNG" width="100%" height="400px">
+
+### `gitlab` :
+
+    * install gitlab plugin 
+    * add an api token in gitlab 
+
+<img src="img/jen31.PNG" width="100%" height="400px">
+
+    * create and add a connection to a gitlab in jenkins
+
+<img src="img/jen30.PNG" width="100%" height="400px">
+
+    * trigger builds with pushes
+
+<img src="img/jen32.PNG" width="100%" height="400px">
+
+    * for each repo in gitlab you can add jenkins integration
+    * in the integration settings add jenkins url ,project/job name ,username and password
+
+<img src="img/jen33.PNG" width="100%" height="400px">
+
