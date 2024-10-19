@@ -812,6 +812,7 @@
 
     * if the repo is webhoked to jenkins the build will enter a loop of commiting and building 
     * for multibranch you can use a pluggin called "ignore commiter strategy" 
+    * dont forget to check the "Allow builds when a changeset contains non-ignored author(s)" ckeckbox
     * for normal piplines you need to another stage that checks jenkins commits :
 
         stage('Check for jenkins commit') {
