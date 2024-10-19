@@ -7,10 +7,10 @@
     * jenkins is prefarable to be installed on a server
     * it require's needed tools to get the task done (docker ,npm ,...)
     * tasks must be configured (run tests ,build app)
-    * configuration of the automatic trigger of the workflow
-    - run tests
-    - build ,publish and deploy artifacts
-    - send notifications and more
+    * configuration of the automatic trigger of the workflow :
+        - run tests
+        - build ,publish and deploy artifacts
+        - send notifications and more
 
 ## `roles in jenkins` :
 
@@ -113,6 +113,7 @@
 
     * jenkins can run sript files located in a synced git repo 
     * job => configure => build environment => build steps => command :
+
         - chmod +x <script> (needed execute permissions)
         - ./<script>
 
@@ -142,20 +143,25 @@
 
     * adding docker by attaching a volume to jenkins from the host 
     * this achievd by mounting the docker runtime dir "/var/run/docker.sock" of the host to the jenkins container as a volume (previous container must be killed to add volumes) :
+
         - docker run -v /home/hamdi/jenkins:/var/jenkins_home \
         > -v /var/run/docker.sock:/var/run/docker.sock \
         > -p 8080:8080 -p 50000:50000 \
         > -u root jenkins/jenkins
+
     * additional steps are needed (commands inside the jenkins container) : 
+
         - curl https://get.docker.com/ > dockerinstall && chmod 777 dockerinstall && ./dockerinstall
         - chmod 666 /var/run/docker.sock
 
 ## `build & push docker images` :
 
     * build a docker image of the "java-maven-app" :
+
         - docker build . -t hamdiz0/java-maven-app 
+
     * to push a docker image to a docker repo credentials must be added 
-        * manage => credentials => store/system (of the related git repo credentials) => global credentials(unrestricted) => add credential
+    * manage => credentials => store/system (of the related git repo credentials) => global credentials(unrestricted) => add credential
 
 <img src="img/jen9.PNG" width="100%" height="200px">
  
@@ -172,19 +178,26 @@
 
     * in order to push from jenkins to the nexus docker repo it must be secured first 
     * in the jenkins host where docker is installed (container or host where the actual docker installation exists) edit /etc/docker/docker.json :
-    - {
-        "insecure-registries": ["<nexus-ip@>:<port>"]
-      } 
-        - {
-            "insecure-registries": ["192.168.1.16:8082"]
-          }
+
+        {
+            "insecure-registries": ["<nexus-ip@>:<port>"]
+        } 
+            {
+                "insecure-registries": ["192.168.1.16:8082"]
+            }
+
     * check connection :
+
         docker login 192.168.1.16:8082
+
     * restart docker to add changes :
+
         - systemctl restart docker
         - chmod 666 /var/run/docker.sock (redo essantial changes after restart) 
+
     * add nexus credentials in jenkins (nexus user must have docker role permissions)
     * modify the script :
+
         docker build . -t <nexus-ip@>:<docker repo http port>/java-maven-app:1.1
         echo $PASSWORD | docker login -u $USER --password-stdin   <nexus-ip@>:<docker repo http port>
         docker push <nexus-ip@>:<docker repo http port>/java-maven-app:1.1
@@ -223,9 +236,11 @@
 
     * based on "groovy" with advanced scripting capabilities and high flexibility :
     * structure :
+
         node {
             // groovy script
         }
+
     * the "node" (scripted) definition is equivelent of "pipline + agent" (declarative)  
         
 ## `declarative syntax` :
@@ -234,6 +249,7 @@
     * you have to follow pre-defined structure wich can be a bit limmiting 
     * "agent any" means the script can run on any available jenkins agent like a node ,an executer on that node ,etc (this is relevent for jenkins cluster "master and workers")
     * structure :
+
         pipeline {      //must be top level
             agent any   //where to execute
             stages{     //where work happens
@@ -256,7 +272,9 @@
                 ...
             }
         }
+
     * you can add conditional expressions in the job stages :
+
         stages{     
             stage("test"){
                 when { // when this stage will execute
@@ -270,8 +288,10 @@
                 }
             }
         }
+
     * you can define youre own variables and use them in the script :
-        CODE_CHANEGES == getGitChanges() // a custom function with "groovy" script
+
+        CODE_CHANEGES == getGitChanges() // a custom function with "groovy" script (example)
         pipeline {      
             agent any   
             stages{     
@@ -293,7 +313,9 @@
     * you can find all jenkins env-vars in :
         - <jenkins url|ip@>/env-vars.html/
         - http://192.168.1.16:8080/env-vars.html/ 
+
     * you can define you're own env-vars in the environment section:
+
         pipeline {      
             agent any
             environment {
@@ -314,7 +336,9 @@
                 }
             }
         } 
+
     * another way to get credentials is by using the wrapper syntax this only avaible if the "Credentials" and the "Credentials Biding" plugins are avaible in jenkins :
+
         stage("deploy"){
             steps {
                 echo "deploing to server"
@@ -331,24 +355,29 @@
 ## `tools` :
     
     * this section is used to access build tools for a project (maven ,npm) :
+
         tools {
             <tool> <custom set name in the tools conf>
             maven "maven-3.9.9" 
             gradle 
             jdk
         }
+
     * these tools must be preinstalled in jenkins 
 
 ## `parameters` :
 
     * the parameter block is used to define input parameters for the pipline with can change the behavior of the jenkinsfile script 
+
         parameters {
             string(name:'<name>' ,defaultValue:'<value>' ,description:'<details>')
             choice (name:'<name>' ,choices:['choice1','choice2','choice3'] ,description:'<details>')
             booleanParam(name:'<name>' ,defaultValue: true|false ,description:'<details>')
             password(name: '<name>' ,defaultValue: '<value>' ,description:'<details>')
         }
+
     * call parameters in youre expressions :
+
         stage('deploy') {
             when {
                 expression {
@@ -363,6 +392,7 @@
 ## `external script` :
 
     * you can add groovy scripts in the script block :
+
         stage("build") {
             steps {
                 script {
@@ -370,8 +400,10 @@
                 }
             }
         }
+
     * any related groovy syntax commands and variables must be under the script block 
     * add external groovy script (add a stage where you load youre scripts) :
+
         def gv // define the script variable
         pipline {
             agent any
@@ -393,6 +425,7 @@
                 
             }
         }
+
     * all environment variables and paramaters are avaible and accessable by the script (you can declare them in the actual external groovy script)
 
 ## `replay build option` :
@@ -489,10 +522,12 @@
 <img src="img/jen24.PNG" width="100%" height="500px">
 
     * create a groovy script for each function (sharable logic) under vars :
+
         #!/user/bin/env groovy (ensure that the script will execute correctly)
         def call () {
             // function logic
         }  
+
     * making a shared library globaly avaible 
     * dashboard => administer jenkins => system => global 
 
@@ -501,12 +536,15 @@
 ## `using a global shared library` :
 
     * in the jenkins file of a pipline :
+
         @Library('<shared library name>')_ // add the '_' if the pipline is after
         pipline {...}
         @Library('<shared library name>') // no need to add the '_'
         def gs
         pipline{...}
+
     * calling functions from a shared library :
+
         stage("build"){
             steps{
                 script{
@@ -520,6 +558,7 @@
 
     * a shared library for a specific pipline 
     * in the jenkins file of the pipline :
+
         library identifier: 'jenkins-scoped-library' ,retriever: modernSCM(
             [$class:'<name>' ,
             remote: '<repo-url>',
@@ -529,6 +568,7 @@
 ## `adding parameters to a function` :
 
     * adding parameters for a function in a shared library is convinient cause it makes it more general :
+
         #!/user/bin/env groovy
         def call(
             String <variable>
@@ -539,6 +579,7 @@
 <img src="img/jen26.PNG" width="100%" height="350px">
 
     * calling a function with parameters :
+
         script {
             <file name of the function> '<value>'
             dockerbuild('hamdiz0/va-vote','1.0','docker-repo','./vote')
@@ -548,6 +589,7 @@
 
     * creating a class that function groovy files inherit from 
     * create a groovy package "<PackageName>/<CalssName>.groovy" :
+
         #!/user/bin/env groovy
         package <PackageName> // "com.example" containing folder of the class groovy file
         class <ClassName> implements Serializable { // saving the state of the execution if the pipeline is paused and resumed
@@ -632,3 +674,166 @@
 <img src="img/jen38.PNG" width="100%" height="400px">
 
 #                             [`Versioning`]
+
+## `major.minor.patch` :
+
+    * each package manager tool keeps a version of an application
+    * a software version is split on 3 parts :
+        - major : big breaking changes (no rollbacks/not backward compatible)
+        - minor : new chages that are backward compatible (api features)
+        - patch : small changes and bug fixes (no api changes) 
+    * major.mino.patch  : 1.3.2
+
+## `suffixs` :
+
+    * suffixs are used to give more information to the version : 
+        - <version>-<suffix>
+        - SNAPSHOT : for test versions
+        - RELEASE : for release versions
+
+## `incrementing version for java-maven-app` :
+
+### `build/app version` :
+
+    * evry build tool have some kinde of tool or plugin to increment version for maven :
+
+        mvn build-helper:parse-version version:set 
+        -DnewVersion=
+        \${paresedVersion.majorVersion} // nextMajorVersion
+        .\${paresedVersion.minorVersion} // nextMinorVersion
+        .\${paresedVersion.nextIncrementalVersion} // incrementalVersion
+        versions:commit
+
+    * adding the incrementing script to a jenkinsfile 
+    * use "\\\${<variable>}" so the script dosen't comfuse maven vars with global ones :
+
+        def incrementVersion() {
+            echo 'incrementing app version ...'
+            sh 'mvn build-helper:parse-version versions:set \
+            -DnewVersion="\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalVersion}" \
+            versions:commit'
+        }    
+
+### `docker image version` :
+
+    * a common practice is to set the docker image version same as the app version:
+
+        stage('increment version'){
+            steps{
+                script{
+                    echo 'incrementing app version ...'
+                    sh '...'
+                    def <variable> (match) = readFile('pom.xml') =~ '<version>(.+)</version>'
+                }
+            }
+        }
+
+    * readFile searches for a match of the line '<version>content</version>' to retrieve the version and set it to a variable
+    * '(.+)' this regular expression tells the script to retrieve all lines no matter what content between '<version>...</version>'
+    * the variable stores an array of all matches and each match has its own content wich can be multiple elements 
+    * you select the first line match that holds the app version with index '0' and its content the version wich is the first element '1' :
+
+        - match[0][1] // holds the app version
+        - def version = match[0][1]
+
+    * creating docker image version and appending build number :
+
+        stage('increment version'){
+            steps{
+                script{
+                    echo 'incrementing app version ...'
+                    sh 'mvn build-helper:parse-version versions:set \
+                    -DnewVersion="\\\${parsedVersion.majorVersion}.\\\${parsedVersion.nextMinorVersion}" \
+                    versions:commit'
+                    def match = readFile('pom.xml') =~ '<version>(.+)</version>'
+                    def version = match[0][1]
+                    env.IMAGE_VERSION = "$version"
+                }
+            }
+        }
+        stage("build image"){
+            steps {
+                script{
+                    dockerBuild('hamdiz0/java-maven-app',"$IMAGE_VERSION",'docker-repo','.')
+                }
+            }
+        }
+    
+    * dockerfile require changes so it can build the new packeged app with the new version :
+
+        FROM openjdk:8-jre-alpine
+        EXPOSE 8080
+        COPY ./target/java-maven-app-*.jar /usr/app/ ("*" : current version)
+        WORKDIR /usr/app
+        CMD java -jar java-maven-app-*.jar 
+    
+    * old version jar files must be deleted before the build to avoid file comfusion cause "*" select all files :
+
+        - mvn clean package 
+
+### `commiting changes to github` :
+
+    * add a github token and create credentails
+    * configure git user name and email in jenkins container :
+
+        - docker exec -it <jenkins container name|id> bash
+        - git config --global user.name "jenkins"
+        - git config user.email "jenkins@jenkins.com"
+
+    * add a stage for pushing changes :
+
+        def git_push(String url , String credId , String commitMsg, String toBranch){
+            echo 'pushing to $toBranch ...'
+            withCredentials([
+                usernamePassword(
+                    credentialsId:"$credId",
+                    usernameVariable:'USER',
+                    passwordVariable:'TOKEN'
+                )]){
+                sh "git remote set-url origin https://${USER}:${TOKEN}@$url"
+                sh "git add ."
+                sh "git commit -m \"${commitMsg}\"" 
+                sh "git push origin HEAD:$toBranch"
+            }
+        }
+
+        stage("push changes"){
+            steps{
+                script{
+                    gs.git_push(
+                        'github.com/hamdiz0/java-maven-app.git', //url without "https://"
+                        'github-api-hz0', //credentialsId
+                        "updated to version ${IMAGE_VERSION}", //commit message
+                        'main' //branch
+                    )
+                }
+            }
+        }      
+
+    * if the repo is webhoked to jenkins the build will enter a loop of commiting and building 
+    * for multibranch you can use a pluggin called "ignore commiter strategy" 
+    * for normal piplines you need to another stage that checks jenkins commits :
+
+        stage('Check for jenkins commit') {
+            steps {
+                script {
+                    // find the latest committer's email
+                    def committerEmail = sh(script: 'git log -1 --pretty=%ae', returnStdout: true).trim()
+                    
+                    echo "Committer email: ${committerEmail}"
+
+                    // check if the committer email is Jenkins'
+                    if (committerEmail == 'jenkins@jenkins.com') { // jenkins git configured email
+                        echo "Skipping build due to Jenkins commit"
+                        currentBuild.result = 'SUCCESS' // set build result to success
+                        error('Stopping build due to Jenkins commit') // stops the build with an error
+                    }
+                }
+            }
+        }
+
+
+
+
+
+
