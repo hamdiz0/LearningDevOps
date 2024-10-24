@@ -1,5 +1,7 @@
 #                           What is DevOps ?
 
+<img src="./loop.jpg" style="width:100%">
+
 ## `devops is not` :
 
     - devops is not a tool 
