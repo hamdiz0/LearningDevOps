@@ -122,6 +122,8 @@
 
 ## `famous devops tools` :
 
+<img src="./loop & tools" style="width:100%">
+
     - source code manegment : git
     - package management : docker
     - infratructure as code : terraform ,ansible
