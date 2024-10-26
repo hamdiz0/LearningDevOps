@@ -1,6 +1,6 @@
 # 12 FACTOR APP
 
-<img src="z-imgs/12 factors.jpg">
+<img src="z-imgs/12 factors.jpg" style="width:100%">
 
 ## `1-Codebase` : 
 
