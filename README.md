@@ -1,6 +1,6 @@
 #                           What is DevOps ?
 
-<img src="./loop.jpg" style="width:100%">
+<img src="z-imgs/loop.jpg" style="width:100%">
 
 ## `devops is not` :
 
@@ -124,7 +124,7 @@
 
 ## `famous devops tools` :
 
-<img src="./loop & tools.jpg" style="width:100%">
+<img src="z-imgs/loop & tools.jpg" style="width:100%">
 
     - source code manegment : git
     - package management : docker
