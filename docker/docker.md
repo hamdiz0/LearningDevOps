@@ -35,7 +35,7 @@
 
 * "docs.docker.com" => get Docker => select OS => follow the listed steps
 
-## `Linux`:
+## `Linux` :
 
     * installing docker using the convinience script is mush easier 
         - curl -fsSL https://get.docker.com -o get-docker.sh
