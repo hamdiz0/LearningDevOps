@@ -42,6 +42,8 @@
     - Runs controllers that intreract with cloud providers
     - link clusters to a cloud provider's API 
 
+---
+
 <img src="img/kub5.PNG" style="width:100%">
 
 * `nodes` :
@@ -134,7 +136,7 @@
     ```
     - Generally encapsulated by a Deployment
 * `Deployment` :
-    - a deployment is higher-level object that provides updates for Pods and ReplicaSets
+    - a deployment is higher-level object that provides updates for Pods and ReplicaSets (a blueprint)
     - run multiple replicas of an application 
     - suitable for stateless applications
     - update triggers a rollout (a rolling update scales up a new version to the appropriate number of replicas and scales down the old version to 0 replicas)
@@ -166,7 +168,7 @@
     - a REST object similar to Pods
     - a logical abstraction for a set of pods in a cluster
     - provide policies for accessing the Pods and cluster
-    - acts as load balencer across the Pods
+    - acts as load balencer across the Pods (forwards request to the less busy Pod)
     - eash service is assigned a unique IP@ for accessing applications deployed on Pods
     - why service is needed :
         * Pods are volatile wich leads to discoverability issues because of changing IP@
@@ -195,13 +197,30 @@
 <img src="img/kub12.PNG" style="width:100%">
 
 * `DaemonSet` :
+    - adjust replica-number when adding/decreasing Nodes
+    - ensure that Pods are equally distributed across deployments
+    - deploys one replica per node
 
 <img src="img/kub13.PNG" style="width:100%">
 
 * `StatefulSet` :
+    - used specificly for apllication like databases
+    - basicly Deployment but for databas services
+    - data bases are often hosted outside of the k8s cluster avoiding the StatefulSet
 
 <img src="img/kub14.PNG" style="width:100%">
 
 * `Job` :
 
 <img src="img/kub15.PNG" style="width:100%">
+
+* `Config Map` :
+    - map external configuration to an application
+    - connected to a Pod so that it can retrieve the configuration
+    - avoid rebuilding ,pushing the image ,pulling in the pod evry time a change happens 
+* `Secret` :
+    - store credentials
+    - require third party encryption tools (cloud providers, ...)
+    - or reference secret inside deployment/pod (environment vars ,proprities file ".env")
+* `volumes` :
+    - persist data locally/remotely
