@@ -182,3 +182,34 @@ AWS provides these services, enabling businesses to run applications without man
 * optional script to config configure the machine (or use ssh)
 
 <img src="img/aws22.PNG" style="width:100%">
+
+# [`EC2`]
+
+* On AWS, compute options are:
+    - EC2 (Virtual Machines): Emulates physical servers.
+    - Containers (EKS): For lightweight, scalable apps.
+    - Serverless (lambda): Runs code without managing servers.
+* Amazon EC2 provides secure, flexible virtual servers (instances) in the cloud
+* an AMI is a prebuilt EC2 oprimized image
+* it's possible to create an AMI from an instance (usefull for creating instances)
+
+<img src="img/aws23.PNG" style="width:100%">
+
+* instance type & size :
+    - size : storage size
+    - type : usecases and the need (g:graphical intensive apps ,m5:general use)
+    - memory optimized ,graphic optimized ,compute optimized ,..
+
+<img src="img/aws24.PNG" style="width:100%">
+
+* the EC2 instance can be modified and updated :
+    - actions => instance settings => change instance type
+    - you can change the instance type and rescale it's size
+
+<img src="img/aws25.PNG" style="width:100%">
+
+* EC2 instance life cycle :
+
+<img src="img/aws26.PNG" style="width:100%">
+
+
