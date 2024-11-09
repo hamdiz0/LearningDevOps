@@ -380,3 +380,40 @@ spec:
           requests:
             storage: 1Gi        # one GB of storage
 ```
+### daemonset definition :
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: example
+  template:
+    metadata:
+      labels:
+        app: example
+    spec:
+      containers:
+      - name: example-container
+        image: nginx
+```
+### apply configuration files :
+```
+kubectl apply -f file.yaml
+```
+
+# [`ingress`] :
+
+* ingress manages external access to cluster services and it has 2 main parts :
+    - ingress objects : defines traffic routing rules 
+    - ingress controllers : implements rules using load balancers or frontends
+
+<img src="img/kub17.PNG" style="width:100%">
+
+# [`antipatterns`] :
+
+* avoiding <a href="src/antipatterns.md">Antipatterns</a> is crucial for maintaining a robust container orchestration environment 
+
