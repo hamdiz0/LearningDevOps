@@ -288,29 +288,72 @@
 
 ### pod definition :
 ```
-apiVersion: v1
-kind: Pod
-metadata:
+apiVersion: v1                  # v1 for pods and services
+kind: Pod                       # object type
+metadata:                       # provide information about the object
   name: my-pod
-  labels:
-    app: my-app
+  labels:                       # labels assigned to this object
+    app: my-app                 # this object belongs to "my-app" app
     env: production
-spec:
+spec:                           # object configuration
   containers:
     - name: nginx-container
       image: nginx:latest
       ports:
         - containerPort: 80
 ```
+### service definition :
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+  labels:
+    app: my-app
+spec:
+  selector:                     # defines the label selector used to match pods managed by this object
+    matchlabels:                # tell the object to manage pods with these labels
+      app: my-app               
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP               # service type
+```
 ### deployment definition :
 ```
-apiVersion: apps/v1
+apiVersion: apps/v1             # apps/v1 for deployments ,statefulsets and deamonsets 
 kind: Deployment
 metadata:
   name: my-deployment
   labels:
     app: my-app
 spec:
+  replicas: 3
+  selector:
+    matchLabels:                
+      app: my-app
+  template:                     # The template block describes the pod template for each replica in this object (what each pod should contain)
+    metadata:                   # pod metadata
+      labels:
+        app: my-app
+    spec:
+      containers:               # pod configuration
+        - name: nginx-container
+          image: nginx:latest
+          ports:
+            - containerPort: 80    
+```
+### statefulset definition :
+```
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: my-statefulset
+  labels:
+    app: my-app
+spec:
+  serviceName: "my-service"     # defines the headless Service name for the StatefulSet Pods
   replicas: 3
   selector:
     matchLabels:
@@ -321,23 +364,19 @@ spec:
         app: my-app
     spec:
       containers:
-        - name: nginx-container
+        - name: my-container
           image: nginx:latest
           ports:
-            - containerPort: 80    
-```
-### service definition :
-```
-apiVersion: v1
-kind: Service
-metadata:
-  name: my-service
-spec:
-  selector:
-    app: my-app
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 80
-  type: ClusterIP
+            - containerPort: 80
+          volumeMounts:
+            - name: my-storage
+              mountPath: /data  # mounts the storage volume at /data inside each Pod
+  volumeClaimTemplates:         # create a separate volume for each Pod replica from this template
+    - metadata:
+        name: my-storage        # name of the persistent volume claim
+      spec:
+        accessModes: [ "ReadWriteOnce" ]  # each Pod can read/write to the volume
+        resources:
+          requests:
+            storage: 1Gi        # one GB of storage
 ```
