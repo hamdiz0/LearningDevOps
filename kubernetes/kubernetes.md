@@ -3,7 +3,7 @@
 * kubernetes is a container orchestration tool
 * automating deployment ,scaling and management of containerized apps
 
-# `contatiner orchestration` :
+# [`contatiner orchestration`] :
 
 * container orchestration is a process that automates the container lifecycle of containerized apps :
     - deployment
@@ -15,12 +15,12 @@
 
 <img src="img/kub1.PNG" style="width:100%">
 
-# `k8s concepts` :
+# [`k8s concepts`] :
 
 <img src="img/kub2.PNG" style="width:100%">
 <img src="img/kub3.PNG" style="width:100%">
 
-# `k8s Architecture` :
+# [`k8s Architecture`] :
 
 <img src="img/kub4.PNG" style="width:100%">
 
@@ -65,14 +65,14 @@
     - Mantains network rules that allow communication to pods  
     - communication to workloads running in a cluster
 
-# `k8s objects` :
+# [`k8s objects`] :
 
 * Kubernetes objects consist of two main fields 
     - object spec :
         * provided by user
         * defines desired state
     - status :
-        * provided bu kubernetes
+        * provided by kubernetes
         * defines current state
     - kubernetes works towards matching the current state to the desired state
 * Labels and Selectors :
@@ -129,10 +129,10 @@
                         app: nginx
                 spec:
                     containers:
-                        name: nginx
-                        image: nginx:1.7.9 
-                        ports:
-                            containerPort: 80
+                    - name: nginx
+                      image: nginx:1.7.9 
+                      ports:
+                      - containerPort: 80
     ```
     - Generally encapsulated by a Deployment
 * `Deployment` :
@@ -175,22 +175,23 @@
         * services keep track of Pod changes and exposes a single IP@ or a DNS name
         * utilizes selectors to target a set of Pods
     - Service Types (4):
-        * ClusterIP (internal) : 
+        * ClusterIP : 
+            - internal
             <img src="img/kub8.PNG" style="width:100%">
 
-        * NodePort (external) :
-
+        * NodePort :
+            - external            
             <img src="img/kub9.PNG" style="width:100%">
 
-        * ELB (External Load Balancer) (external) :
-
+        * ELB(External Load Balancer) :
+            - external
             <img src="img/kub10.PNG" style="width:100%">
 
-        * External name (external) :
-
+        * External name :
+            - external
             <img src="img/kub11.PNG" style="width:100%">
 
-    - basicly a pod wrap with persisting settings
+    - basicly a wrap with persisting settings (IP@ ,...)
 * `Ingress` :
     - forwards connection outside/inside the kube internal network
     
@@ -205,8 +206,11 @@
 
 * `StatefulSet` :
     - used specificly for apllication like databases
-    - basicly Deployment but for databas services
-    - data bases are often hosted outside of the k8s cluster avoiding the StatefulSet
+    - basicly Deployment but for data-base services
+    - data-bases are often hosted outside of the k8s cluster avoiding the StatefulSet
+    - manages the deployment and scaling of a set of pods
+    - maintains a sticky identity for each of their Pods
+    - ensure that each Pod has a persistent identity and storage
 
 <img src="img/kub14.PNG" style="width:100%">
 
@@ -224,3 +228,116 @@
     - or reference secret inside deployment/pod (environment vars ,proprities file ".env")
 * `volumes` :
     - persist data locally/remotely
+
+# [`kubectl`] :
+
+## `commands` :
+
+* command structure :
+    - kubectl <command> <type> <name> <flags> 
+    - <command> : create ,get ,delete ,apply ,...
+    - <type> : pod ,deployment ,replicaset ,...
+    - <flags> : special options that override the default values ()
+* create and run a Pod :
+    ```
+    kubectl run <name> --image=<container-image> --restart=Never
+    ```
+    - (--restart=Never) pod will not restart automatically if it stops for any reason 
+* create a deployment :
+    ```
+    kubectl create deployment <name> --image=<container-image>
+    ```
+* expose a deployment as a service :
+    ```
+    kubectl expose deployment <deployment-name> --port=<port number> --type=NodePort --name=<name>
+    ```
+    - (--type) : NodePort ,ClusterIP ,ELB ,External name
+* statefullstes :
+    ```
+    kubectl create statefulset <name> --image=<container-image> --replicas=<number>
+    ```
+* generate a file.yaml from a command :
+    - add (--dry-run=client -o yaml > service.yaml) to create a file from a command
+    ```
+    kubectl create statefulset my-statefulset --image=nginx --replicas=3 --dry-run=client -o yaml > statefulset.yaml
+    ```
+* delete an object :
+    - kubectl delete <object-type> <name>
+    - <objct-type> : services/pods/deployments/...
+    - kubectl delete <object-type> --all
+    ```
+    kubectl delete pod <pod-name>
+    ```
+    ```
+    kubectl delete services --all
+    ```
+* get object information :
+    ```
+    kubectl get <object-type> 
+    ```
+* get logs :
+    ```
+    kubectl logs <pod-name>
+    ```
+* Label an object :
+	- Labels let you query and filter objects in your cluster
+    ```
+    kubectl label <object-type> <name> <key>=<value>
+    ```
+## `configuration files` :
+
+### pod definition :
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+  labels:
+    app: my-app
+    env: production
+spec:
+  containers:
+    - name: nginx-container
+      image: nginx:latest
+      ports:
+        - containerPort: 80
+```
+### deployment definition :
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deployment
+  labels:
+    app: my-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+        - name: nginx-container
+          image: nginx:latest
+          ports:
+            - containerPort: 80    
+```
+### service definition :
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+spec:
+  selector:
+    app: my-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP
+```
