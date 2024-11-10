@@ -2,6 +2,7 @@
 
 * kubernetes is a container orchestration tool
 * automating deployment ,scaling and management of containerized apps
+* Kubernetes Is a highly portable, horizontally scalable, open-source container orchestration system with automated deployment and simplified management capabilities
 
 # [`contatiner orchestration`] :
 

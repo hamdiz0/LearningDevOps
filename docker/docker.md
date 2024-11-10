@@ -163,26 +163,28 @@
 
 ## `steps of creating a docker image` :
 
-    * example of setting up a web app based on flask :
-        - OS (ubuntu)
-        - update apt repo
-        - install dependencies using apt
-        - install python dependencies
-        - copy source code to /opt dir
-        - run the web server using "flask" command
-    * a docker file is needed to complete these steps :
-    * "INSTRUCTION" => "argument"
-    * it follows a layered architecture (OS => dependencys and tools => source-code => entrypoint)
-        - Dockerfile contents :
+* <a href="src/dockerfile instructions.md">Dockerfile Instructions</a>
 
-            FROM Ubuntu
+* example of setting up a web app based on flask :
+    - OS (ubuntu)
+    - update apt repo
+    - install dependencies using apt
+    - install python dependencies
+    - copy source code to /opt dir
+    - run the web server using "flask" command
+* a docker file is needed to complete these steps :
+* "INSTRUCTION" => "argument"
+* it follows a layered architecture (OS => dependencys and tools => source-code => entrypoint)
+    - Dockerfile contents :
 
-            RUN apt-get update
-            RUN apt-get install python3
-            RUN pip install python3-flask
+        FROM Ubuntu
 
-            COPY app.py /opt/source-code (copy the app source-code to /opt)
-            ENTRYPOINT python3 /opt/source-code (this command will run if a container is created)
+        RUN apt-get update
+        RUN apt-get install python3
+        RUN pip install python3-flask
+
+        COPY app.py /opt/source-code (copy the app source-code to /opt)
+        ENTRYPOINT python3 /opt/source-code (this command will run if a container is created)
 
 ## `create docker image `:
 
