@@ -106,7 +106,7 @@
               - contatinerPort: 80
     ```
 * `ReplicaSet` :
-    - a set of horizontally scaled running Pods
+    - create and manage horizontally scaled running Pods
     - it's configuration file defines:
         * Number of replicas 
         * Pod template
@@ -138,6 +138,7 @@
     - Generally encapsulated by a Deployment
 * `Deployment` :
     - a deployment is higher-level object that provides updates for Pods and ReplicaSets (a blueprint)
+    - deployments provide updates for pods and replicasets
     - run multiple replicas of an application 
     - suitable for stateless applications
     - update triggers a rollout (a rolling update scales up a new version to the appropriate number of replicas and scales down the old version to 0 replicas)
@@ -166,7 +167,7 @@
                             containerPort: 80
     ```
 * `Service` :
-    - a REST object similar to Pods
+    - A REST object that provides policies for accessing the pods and cluster
     - a logical abstraction for a set of pods in a cluster
     - provide policies for accessing the Pods and cluster
     - acts as load balencer across the Pods (forwards request to the less busy Pod)
@@ -273,6 +274,9 @@
     kubectl delete services --all
     ```
 * get object information :
+    - kubectl get :
+        * rs : relpicasets ,deploy : demployments ,po : pods ,svc : services ,ns : namespaces
+        * cm : configmaps ,no : nodes ,pvc : persistentvolumeclaims ,sts : statefulsets ,secret : secrets
     ```
     kubectl get <object-type> 
     ```
@@ -285,6 +289,27 @@
     ```
     kubectl label <object-type> <name> <key>=<value>
     ```
+* discribe an object :
+    - show information about an object
+    ```
+    kubectl describe <object-type> <object-name>
+    kubectl describe <objects-type> -n <name-space>
+    ```
+* scale and object :
+    - scale up|down the number of replicas manualy
+    - this is not applicable on the service as it's only a pod abstraction 
+    ```
+    kubectl scale <object-type> <name> --replicas=<number>
+    ```
+* auto-scaling :
+    - scale up|down the number of replicas automaticly
+    - (--cpu-percent=<percentage>) create a pod when cpu usage reashes a certain percentage 
+    ```
+    kubectl autoscale <object-type> <name> --cpu-percent=<percentage> --min=<min-number> --max=<max-number>
+    ```
+    
+<img src="img/kub18.PNG" style="width:100%">
+
 ## `configuration files` :
 
 ### pod definition :
@@ -417,4 +442,17 @@ kubectl apply -f file.yaml
 # [`antipatterns`] :
 
 * avoiding <a href="src/antipatterns.md">Antipatterns</a> is crucial for maintaining a robust container orchestration environment 
+
+# [`kubernetes basics`] :
+
+* <a href="src/basics">Kubernetes basics and componenets</a>
+
+# [`autoscaling`] :
+
+
+
+# [`deployment strategies`] :
+
+* <a href="src/deployment-strategies.md">Deployment Strategies</a>
+
 
