@@ -445,7 +445,7 @@ kubectl apply -f file.yaml
 
 # [`kubernetes basics`] :
 
-* <a href="src/basics">Kubernetes basics and componenets</a>
+* <a href="src/basics.md">Kubernetes basics and componenets</a>
 
 # [`autoscaling`] :
 
