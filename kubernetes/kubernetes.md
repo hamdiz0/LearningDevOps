@@ -449,8 +449,16 @@ kubectl apply -f file.yaml
 
 # [`autoscaling`] :
 
+* there are three autoscaling types **Based On System Demand** :
+    - horizontal pod auto-scaler (HPA) : scale up|down with pods (horizontally)
+    - vertival pod auto-scaler (VPA) : scale up|down with resources for a pod (CPU ,Memory)
+    - cluster auto-scaler (CA) : scale up|down with nodes
 
+<img src="img/kub29.PNG" style="width:100%">
 
+* using a combination of all three types ensures :
+    - stable services at peak load 
+    - minimize cost at times of low demand
 # [`deployment strategies`] :
 
 * <a href="src/deployment-strategies.md">Deployment Strategies</a>
