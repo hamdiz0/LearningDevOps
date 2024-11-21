@@ -1,7 +1,7 @@
 # `JENKINS`
 
     * jenkins is a popular tool used for build automation and continious integration
-    
+
 - [Build Automation](#build-automation)
 - [CI/CD](#cicd)
 - [Setting up Jenkins](#setting-up-jenkins)
@@ -11,8 +11,8 @@
 - [Git Configuration](#git-configuration)
 - [Scripts](#scripts)
 - [Run Tests and Build a Java App](#run-tests-and-build-a-java-app)
-- [Docker in Jenkins](#docker-in-jenkins)
-- [Freestyle vs Pipline](#freestyle-vs-pipline)
+- [Docker in Jenkins](#doker-in-jenkins)
+- [Freestyle vs Pipline](#freestyle-vs-pipline-)
 - [Pipline syntax](#pipline-syntax)
 - [MultiBranch](#multibranch)
 - [Shared Library](#shared-library)
