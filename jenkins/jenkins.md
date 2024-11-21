@@ -2,6 +2,40 @@
 
     * jenkins is a popular tool used for build automation and continious integration
 
+- [use of jenkins](#use-of-jenkins)
+- [roles in jenkins](#roles-in-jenkins)
+- [Build Automation](#build-automation)
+- [CI/CD](#cicd)
+- [Setting up Jenkins](#setting-up-jenkins)
+- [Plugins and Tools](#plugins-and-tools)
+- [Job Types](#job-types)
+- [Setting Up a Job](#setting-up-a-job)
+- [Git Configuration](#git-configuration)
+- [Scripts](#scripts)
+- [Run Tests and Build a Java App](#run-tests-and-build-a-java-app)
+- [Docker in Jenkins](#docker-in-jenkins)
+- [setting up docker in jenkins](#setting-up-docker-in-jenkins)
+- [build & push docker images](#build-push-docker-images)
+- [Freestyle vs Pipline](#freestyle-vs-pipline)
+- [Pipline](#pipline)
+- [Pipline Syntax](#pipline-syntax)
+    - [jenkins environment variables](#jenkins-environment-variables)
+    - [tools](#tools)
+    - [parameters](#parameters)
+    - [external script](#external-script)
+    - [replay build option](#replay-build-option)
+    - [user input](#user-input)
+- [credentials](#credentials)
+- [MultiBranch](#multibranch)
+- [Shared Library](#shared-library)
+- [Job Triggers](#job-triggers)
+- [using git commits](#using-git-commits)
+    - [github](#github)
+    - [gitlab](#gitlab)
+- [multibranch triggers](#multibranch-triggers)
+- [Versioning](#versioning)
+    - [incrementing version for java-maven-app](#incrementing-version-for-java-maven-app)
+
 ## `use of jenkins` :
 
     * jenkins is prefarable to be installed on a server
@@ -14,7 +48,7 @@
 
 ## `roles in jenkins` :
 
-### `jenkins administrator (operation or devops teams)` :
+### `jenkins administrator` :
 
     - manges jenkins
     - sets up jenkins cluster
@@ -460,7 +494,8 @@
     } 
 ```
 ## `credentials` :
-
+    
+    * administer => credentials => add credentials
     * there is 3 types of credentials in jenkins :
         - global : avaible for evry job type
         - system only : avaible for system addmins

@@ -213,3 +213,60 @@ AWS provides these services, enabling businesses to run applications without man
 <img src="img/aws26.PNG" style="width:100%">
 
 
+# [`serverless`] 
+
+* serverless services allow users to focus on developping an app while letting aws take full care of the infrastructure
+
+## `fargate` :
+
+* lets you run containers without managing servers, you define the containers and Fargate handles the scaling and infrastructure
+
+<img src="img/aws27.PNG" style="width:100%">
+
+## `lambda` :
+
+* service to run code in response to events (like file uploads or HTTP requests) without managing servers
+    - autpmaticly scalable
+    - highly available
+    - all maintenance is tken care off
+    - lambda functions are used for small services that dont require heavy load 
+    - each lambada function work on its own environment
+    - functions scale up or down based on the load
+
+<img src="img/aws28.PNG" style="width:100%">
+
+# [`vpc`]
+
+## `subnets & gateways` :
+
+<img src="img/aws30.PNG" style="width:100%">
+
+* create a vpc 
+
+<img src="img/aws31.PNG" style="width:100%">
+
+* create a subnet 
+
+<img src="img/aws32.PNG" style="width:100%">
+
+* create a gatway to allow connection to the internet
+
+<img src="img/aws33.PNG" style="width:100%">
+
+* attach gateway to vpc
+
+<img src="img/aws34.PNG" style="width:100%">
+
+* a best practice is to duplicate resources hosted in an AZ to another one to ensure avilability
+    - create similar subnets but in a different AZ 
+    - duplicate and deploy resources in a different AZ
+
+## `route tables` :
+
+* when creating a vpc the default main route table allow traffic between all subnets
+
+<img src="img/aws35.PNG" style="width:100%">
+
+* create custom routetables for subnets based on the need (private|public)
+
+<img src="img/aws36.PNG" style="width:100%">

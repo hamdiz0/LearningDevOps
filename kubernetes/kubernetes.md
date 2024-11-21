@@ -337,9 +337,8 @@ metadata:
   labels:
     app: my-app
 spec:
-  selector:                     # defines the label selector used to match pods managed by this object
-    matchlabels:                # tell the object to manage pods with these labels
-      app: my-app               
+  selector:                     # defines the label selector used to match pods managed by this object               
+    app: my-app                 # tell the object to manage pods with these labels
   ports:
     - protocol: TCP
       port: 80
@@ -409,22 +408,23 @@ spec:
 ### daemonset definition :
 ```
 apiVersion: apps/v1
-kind: Deployment
+kind: DaemonSet
 metadata:
-  name: example-deployment
+  name: my-daemonset
 spec:
-  replicas: 3
   selector:
     matchLabels:
-      app: example
+      app: my-app
   template:
     metadata:
       labels:
-        app: example
+        app: my-app
     spec:
       containers:
-      - name: example-container
-        image: nginx
+        - name: my-container
+          image: nginx:latest
+          ports:
+            - containerPort: 80
 ```
 ### apply configuration files :
 ```
@@ -463,4 +463,182 @@ kubectl apply -f file.yaml
 
 * <a href="src/deployment-strategies.md">Deployment Strategies</a>
 
+# [`rolling updates`] :
 
+* rolling updates allow you to update applications without downtime :
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 50%     # make sure that 50% of the pods are running (0% for a zero down-time system | 100% for a full down time system)
+      maxSurge: 2             # max extra pods to create during the update (100% double the number of pods creating a complete replica before taking down the original set)
+  template:
+    spec:
+      containers:
+      - name: my-app
+        image: my-app:v2 
+```
+* liveness probe checks if an application is running correctly :
+```
+livenessProbe:
+  httpGet:
+    path: /                   # path your app exposes to indicate "I'm alive!"
+    port: 9080
+  initialDelaySeconds: 100    # wait before the first check
+  periodSeconds: 15           # check every 15 seconds
+```
+* readiness probe checks if an application is ready to handle traffic :
+```
+readinessProbe:
+  httpGet:
+    path: /                   # path your app exposes to indicate "I'm ready!"
+    port: 8080
+  initialDelaySeconds: 45     # delay before the first check
+  periodSeconds: 5            # Check every 5 seconds
+```
+
+* kubectl commands to manage rollouts :
+    - describe a deployment (all info about the deployment including the <container-name>) :
+        ```
+        kubectl describe deployment/<deployment-name>
+        ``` 
+    - change the image version for a deploymnet's containers (--record:to save the change in history) :
+        ```
+        kubectl set image deployment/<deployment-name> <container-name>=<image>:<tag> --record 
+        ```
+    - check deployment status :
+        ```
+        kubectl rollout status deployment/<deployment-name>
+        ```
+    - undo a rollout (roll back) :
+        ```
+        kubectl rollout undo deployment/<deployment-name> --record
+        ```
+    - show rollout history :
+        ```
+        kubectl rollout history deployment/<deployment-name>
+        ```
+    - there is another way to save changes in the history :
+        ```
+        kubectl annotate deployment/<deployment-name> kubernetes.io/change-cause="kubectl set image deployment/<deployment-name> <container-name>=<new-image>"
+        ```
+
+# [`config maps and secrets`] :
+
+## config maps :
+
+* using literal values (CLI) :
+    ```
+    kubectl create configmap <configmap-name> --from-literal=<key>=<value>
+    ```
+* creating a configmap from a file :
+    - <file.properties> containes Key:Value pairs
+    ```
+    kubectl create configmap <configmap-name> --from-file=<file.properties>
+    ```
+* using a <configmap.YAML> file :
+    ```
+    apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: my-config
+      data:
+        key1: value1
+        key2: value2
+    ```
+    ```
+    kubectl apply -f <configmap.YAML>   # apply the config map
+    ```
+---
+* using the config map :
+    - using specific keys : 
+        ```
+        env:
+        - name: KEY1
+            valueFrom:
+            configMapKeyRef:
+                name: my-config-1
+                key: key1
+        - name: KEY2
+            valueFrom:
+            configMapKeyRef:
+                name: my-config-2
+                key: key2
+        ```
+    - injecting all keys from a file :
+        ```
+        spec:
+        containers:
+            - name: my-container
+            image: nginx
+            envFrom:
+                - configMapRef:
+                    name: my-config
+        ```
+
+## secrets :
+
+* using literal values (CLI) :
+    ```
+    kubectl create secret generic my-secret --from-literal=username=myuser --from-literal=password=mypassword
+    ```
+* creating a configmap from a file :
+    - <file.properties> containes Key:Value pairs
+    ```
+    kubectl create secret generic my-secret --from-file=username=./username.txt --from-file=password=./password.txt
+    ```
+* using a <secrets.YAML> file :
+    ```
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      name: my-secret
+    type: Opaque
+    data:
+      username: bXl1c2Vy            # base64 encoded 'myuser'
+      password: bXlwYXNzd29yZA==    # base64 encoded 'mypassword'
+    ```
+    ```
+    kubectl apply -f <configmap.YAML>   # apply the config map
+    ```
+---
+* using secrets :
+    - as environment variables :
+        ```
+        spec:
+        containers:
+            - name: my-container
+            image: nginx
+            env:
+                - name: DB_USERNAME
+                  valueFrom:
+                    secretKeyRef:
+                      name: my-secret
+                      key: username
+                - name: DB_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: my-secret
+                      key: password
+        ```
+    - as volumes :
+        ```
+        spec:
+          containers:
+          - name: my-container
+            image: nginx
+            volumeMounts:
+            - name: secret-volume
+              mountPath: /etc/secret
+              readOnly: true   
+            volumes:
+              - name: secret-volume
+                secret:
+                  secretName: my-secret
+        ```
