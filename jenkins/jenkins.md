@@ -2,8 +2,6 @@
 
     * jenkins is a popular tool used for build automation and continious integration
 
-- [use of jenkins](#use-of-jenkins)
-- [roles in jenkins](#roles-in-jenkins)
 - [Build Automation](#build-automation)
 - [CI/CD](#cicd)
 - [Setting up Jenkins](#setting-up-jenkins)
