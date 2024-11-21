@@ -1,7 +1,7 @@
 # `JENKINS`
 
     * jenkins is a popular tool used for build automation and continious integration
-
+    
 - [Build Automation](#build-automation)
 - [CI/CD](#cicd)
 - [Setting up Jenkins](#setting-up-jenkins)
@@ -12,27 +12,12 @@
 - [Scripts](#scripts)
 - [Run Tests and Build a Java App](#run-tests-and-build-a-java-app)
 - [Docker in Jenkins](#docker-in-jenkins)
-- [setting up docker in jenkins](#setting-up-docker-in-jenkins)
-- [build & push docker images](#build-push-docker-images)
 - [Freestyle vs Pipline](#freestyle-vs-pipline)
-- [Pipline](#pipline)
-- [Pipline Syntax](#pipline-syntax)
-    - [jenkins environment variables](#jenkins-environment-variables)
-    - [tools](#tools)
-    - [parameters](#parameters)
-    - [external script](#external-script)
-    - [replay build option](#replay-build-option)
-    - [user input](#user-input)
-- [credentials](#credentials)
+- [Pipline syntax](#pipline-syntax)
 - [MultiBranch](#multibranch)
 - [Shared Library](#shared-library)
 - [Job Triggers](#job-triggers)
-- [using git commits](#using-git-commits)
-    - [github](#github)
-    - [gitlab](#gitlab)
-- [multibranch triggers](#multibranch-triggers)
 - [Versioning](#versioning)
-    - [incrementing version for java-maven-app](#incrementing-version-for-java-maven-app)
 
 ## `use of jenkins` :
 
@@ -661,7 +646,10 @@
         - ngrok http <host>:<port>
         - ngrok http localhost:8080
     * in webhook payload field put "ngrok/jenkins-url/github-webhook"
-
+* ngrok gives one random free dns name when u create an account <a href="https://ngrok.com/">visit ngrok</a> :
+```
+    ngrok http <port on youre local machine you want to forward> --url=<ngrok free dns url>
+```
 <img src="img/jen35.PNG" width="100%" height="400px">
 
 ### `github` :
