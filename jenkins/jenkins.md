@@ -165,12 +165,14 @@
         > -v /var/run/docker.sock:/var/run/docker.sock \
         > -p 8080:8080 -p 50000:50000 \
         > -u root jenkins/jenkins
-
+        
     * additional steps are needed (commands inside the jenkins container) : 
 
         - curl https://get.docker.com/ > dockerinstall && chmod 777 dockerinstall && ./dockerinstall
         - chmod 666 /var/run/docker.sock
-
+   ```
+      docker run -v /home/hamdi/jenkins:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock -p 8080:8080 -p 50000:50000 -u root --name jenkins -d jenkins/jenkins
+   ```
 ## `build & push docker images` :
 
     * build a docker image of the "java-maven-app" :
