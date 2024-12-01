@@ -157,23 +157,27 @@
 #                             [`Doker in Jenkins`]
 
 ## `setting up docker in jenkins` :
-
-    * adding docker by attaching a volume to jenkins from the host 
-    * this achievd by mounting the docker runtime dir "/var/run/docker.sock" of the host to the jenkins container as a volume (previous container must be killed to add volumes) :
+   
+   * adding docker by attaching a volume to jenkins from the host
+   * make sure you have docker installed in youre host machine
+   * this achievd by mounting the docker runtime dir "/var/run/docker.sock" of the host to the jenkins container as a volume (previous container must be killed to add volumes) :
 
         - docker run -v /home/hamdi/jenkins:/var/jenkins_home \
         > -v /var/run/docker.sock:/var/run/docker.sock \
         > -p 8080:8080 -p 50000:50000 \
         > -u root jenkins/jenkins
         
-    * additional steps are needed (commands inside the jenkins container) : 
+   * start jenkins as container (change the volume mount "/home/hamdi/jenkins" to youre desired path in youre host machine)
    ```
+      docker run -v /home/hamdi/jenkins:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock -p 8080:8080 -p 50000:50000 -u root --name jenkins -d jenkins/jenkins
+   ```  
+   * additional steps are needed (docker commands inside the jenkins container) : 
+   ```
+      docker exec -it jenkins bash
       curl https://get.docker.com/ > dockerinstall && chmod 777 dockerinstall && ./dockerinstall
       chmod 666 /var/run/docker.sock
    ```
-   ```
-      docker run -v /home/hamdi/jenkins:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock -p 8080:8080 -p 50000:50000 -u root --name jenkins -d jenkins/jenkins
-   ```
+
 ## `build & push docker images` :
 
     * build a docker image of the "java-maven-app" :
