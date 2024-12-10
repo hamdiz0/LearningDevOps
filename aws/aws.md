@@ -213,7 +213,7 @@ AWS provides these services, enabling businesses to run applications without man
 <img src="img/aws26.PNG" style="width:100%">
 
 
-# [`serverless`] 
+# [`Serverless`] 
 
 * serverless services allow users to focus on developping an app while letting aws take full care of the infrastructure
 
@@ -235,7 +235,7 @@ AWS provides these services, enabling businesses to run applications without man
 
 <img src="img/aws28.PNG" style="width:100%">
 
-# [`vpc`]
+# [`VPC`]
 
 ## `subnets & gateways` :
 
@@ -270,3 +270,48 @@ AWS provides these services, enabling businesses to run applications without man
 * create custom routetables for subnets based on the need (private|public)
 
 <img src="img/aws36.PNG" style="width:100%">
+
+* create a route table
+
+<img src="img/aws37.PNG" style="width:100%">
+
+* allow internet traffic to a public subnet
+
+<img src="img/aws38.PNG" style="width:100%">
+
+* attach the internet gateway
+
+<img src="img/aws39.PNG" style="width:100%">
+
+* attach the route table to the public subnets (subnet associations => edit subnet associations )
+
+<img src="img/aws40.PNG" style="width:100%">
+
+<img src="img/aws41.PNG" style="width:100%">
+
+# [`NACLS & Security Groups`] 
+
+## `nacls` :
+
+* nacls are firewalls configured at the subnet level
+* default nacls allow all in/out network traffic
+
+<img src="img/aws42.PNG" style="width:100%">
+
+* nacls are stateless ,both in & out rules must be configured for a specific protocol to fully allow it's traffic
+
+<img src="img/aws43.PNG" style="width:100%">
+
+<img src="img/aws44.PNG" style="width:100%">
+
+## `security groups` :
+
+* security groups are firewalls configured at the instance level
+* the default security group config blocks all inbound and allows all out of bound traffic
+
+<img src="img/aws45.PNG" style="width:100%">
+
+<img src="img/aws46.PNG" style="width:100%">
+
+acls allows and denys traffic (evrything is allowed) unlike security groups wich only allow traffic (evrything is blocked)
+
