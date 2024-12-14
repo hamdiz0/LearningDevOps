@@ -313,5 +313,5 @@ AWS provides these services, enabling businesses to run applications without man
 
 <img src="img/aws46.PNG" style="width:100%">
 
-acls allows and denys traffic (evrything is allowed) unlike security groups wich only allow traffic (evrything is blocked)
+* acls allows and denys traffic (evrything is allowed) unlike security groups wich only allow traffic (evrything is blocked)
 
