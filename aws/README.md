@@ -315,3 +315,85 @@ AWS provides these services, enabling businesses to run applications without man
 
 * acls allows and denys traffic (evrything is allowed) unlike security groups wich only allow traffic (evrything is blocked)
 
+# [`Storage on AWS`]
+
+* File Storage: Organizes data in folders; good for shared access and easy management
+* Block Storage: Stores data in small blocks for fast access; great for databases and performance-heavy tasks
+* Object Storage: Stores data as objects with unique IDs; best for large, unstructured data like photos or videos
+
+## `EBS` :
+
+<img src="img/aws47.png" style="width:100%">
+
+* EC2 Instance Store: Temporary, high-speed storage tied to the instance lifecycle; ideal for temporary data like caches and cluster workloads
+* Amazon EBS: Persistent, scalable block storage (up to 16 TB) for OS, databases, and applications, with encryption and backup support
+* EBS Snapshots: Incremental backups stored in Amazon S3, allowing easy recovery and replication
+
+## `S3` :
+
+* S3 is an object storage service unlike EBS,it isn’t tied to compute resources and allows you to store and retrieve data over the internet
+* S3 is private by default. To manage access:
+    - IAM Policies: Attach to users/groups/roles for centralized permission control
+    - Bucket Policies: Apply to specific buckets to allow/deny actions
+
+<img src="img/aws48.png" style="width:100%">
+
+* making an s3 bucket public 
+    - unckeck the "block all public access" option
+    <img src="img/aws49.png" style="width:100%">
+    - enable acls
+    <img src="img/aws50.png" style="width:100%">
+
+* bucket policies
+
+    <img src="img/aws51.png" style="width:100%">
+
+    - allows public read access to all objects in an s3 bucket
+    ```
+    {
+        "Version":"2012-10-17",
+        "Statement":[
+            {
+                "Sid":"PublicRead",                                     // optional identifier that gives a unique name to a specific statement
+                "Effect":"Allow",                                       // allow action 
+                "Principal": "*",                                       // anyone can access
+                "Action":["s3:GetObject"],                              // allow retrieval of objects
+                "Resource":["arn:aws:s3:::<BUCKET-NAME>/*"]             // specify all objects in the bucket named <BUCKET-NAME>
+            }
+        ]
+    }
+    ```
+    - IAM role based access ,grants full access ( s3:*) to a specific IAM role in a specific AWS account
+    ```
+    {
+        "Version":"2012-10-17",
+        "Statement":[
+            {
+                "Sid":"AllowS3ReadAccess",
+                "Effect":"Allow",
+                "Principal": {
+                    "AWS":"arn:aws:iam::<ACCOUNT-NUMBER>:role/<ROLE>"   // ensure only the IAM role can access the bucket
+                },
+                "Action":"s3:*",                                        // full access
+                "Resource":[
+                    "arn:aws:s3:::<BUCKET-NAME>",                       // allow operations on the bucket itself
+                    "arn:aws:s3:::<BUCKET-NAME>/*"                      // allow opertaions on the bucket objects
+                ]
+            }
+        ]
+    }
+    ```
+
+# [`Databases on AWS`]
+
+* unmanaged database on aws
+    - aws handles infrastructures
+    - you manage EC2 instance, database, query optimization, and data
+
+<img src="img/aws53.png" style="width:100%">
+
+* managed database on aws
+    - aws handles infrastructure, setup, patching, backups, and scalability
+    - you manage Query optimization and data security
+
+<img src="img/aws52.png" style="width:100%">
